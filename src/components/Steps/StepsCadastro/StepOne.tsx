@@ -27,7 +27,12 @@ export const StepOne = ({
   return (
     <Flex w="100%" flexDir="column" alignItems="center" my="10">
       {cpfOrCnpj.length <= 14 ? (
-        <Flex w="100%" alignItems="center" gap="10px">
+        <Flex
+          w="100%"
+          flexDir={["column", "column", "row"]}
+          alignItems="center"
+          gap="10px"
+        >
           <InputGroup
             variant="outline"
             inputName="cpf"
@@ -52,7 +57,12 @@ export const StepOne = ({
         </Flex>
       ) : (
         <>
-          <Flex w="100%" alignItems="center" gap="10px">
+          <Flex
+            w="100%"
+            flexDir={["column", "column", "row"]}
+            alignItems="center"
+            gap="10px"
+          >
             <InputGroup
               variant="outline"
               inputName="cnpj"
@@ -76,7 +86,12 @@ export const StepOne = ({
             />
           </Flex>
 
-          <Flex w="100%" alignItems="center" gap="10px">
+          <Flex
+            w="100%"
+            flexDir={["column", "column", "row"]}
+            alignItems="center"
+            gap="10px"
+          >
             <InputGroup
               variant="outline"
               inputName="nomeFantasia"

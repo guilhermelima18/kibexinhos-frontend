@@ -6,10 +6,8 @@ import { Button } from "../../Button";
 import { StepOne } from "./StepOne";
 import { StepTwo } from "./StepTwo";
 import { Form } from "../../Form";
-import {
-  ClienteProps,
-  useCadastroCliente,
-} from "../../../hooks/useCadastroCliente";
+import { useCadastroCliente } from "../../../hooks/useCadastroCliente";
+import { ClienteProps } from "../../../types/Cliente";
 
 const steps = 2;
 

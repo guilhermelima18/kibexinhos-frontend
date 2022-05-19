@@ -27,7 +27,7 @@ export const StepTwo = ({ formCadastro, setFormCadastro }: StepTwoProps) => {
 
   return (
     <Layout>
-      <Flex w="100%" gap="10px" mt="10">
+      <Flex w="100%" flexDir={["column", "column", "row"]} gap="10px" mt="10">
         <InputGroup
           variant="outline"
           inputName="nome"
@@ -49,15 +49,15 @@ export const StepTwo = ({ formCadastro, setFormCadastro }: StepTwoProps) => {
           borderWidth="2px"
         />
       </Flex>
-      <Flex w="100%" gap="10px">
+      <Flex w="100%" flexDir={["column", "column", "row"]} gap="10px">
         <InputGroup
           variant="outline"
           inputName="celular1"
           inputType="text"
           value={formCadastro.celular1}
           onChange={handleChange}
-          labelText="Celular"
-          placeholder="(xx)xxxxx-xxxx"
+          labelText="Celular 1"
+          placeholder="(xx) xxxxx-xxxx"
           borderWidth="2px"
         />
         <InputGroup
@@ -66,12 +66,12 @@ export const StepTwo = ({ formCadastro, setFormCadastro }: StepTwoProps) => {
           inputType="text"
           value={formCadastro.celular2}
           onChange={handleChange}
-          labelText="Outro Celular"
-          placeholder="(xx)xxxxx-xxxx"
+          labelText="Celular 2"
+          placeholder="(xx) xxxxx-xxxx"
           borderWidth="2px"
         />
       </Flex>
-      <Flex w="100%" gap="10px">
+      <Flex w="100%" flexDir={["column", "column", "row"]} gap="10px">
         <InputGroup
           variant="outline"
           inputName="dataNascimento"
@@ -124,7 +124,13 @@ export const StepTwo = ({ formCadastro, setFormCadastro }: StepTwoProps) => {
         <Switch id="email-alerts" />
         <Text fontSize="0.9rem">Aceita os termos e condições de uso?</Text>
       </Flex>
-      <Flex mt="5" mb="10">
+      <Flex
+        w="100%"
+        alignItems="center"
+        justifyContent={["center", "center", "flex-end"]}
+        mt="10"
+        mb="5"
+      >
         <Button type="submit" w="250px" colorScheme="green">
           Criar conta
         </Button>

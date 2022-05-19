@@ -11,11 +11,13 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Form } from "../../components/Form";
-import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
+import { Input } from "../../components/Input";
 import logoKibexinhosIcon from "../../assets/logo-kibexinhos.png";
+import patasDogIcon from "../../assets/patas-dog.svg";
+import { RiLockPasswordFill } from "react-icons/ri";
 import { FiLogIn } from "react-icons/fi";
-import { InputGroup } from "../../components/Input/InputGroup";
+import { MdEmail } from "react-icons/md";
 
 type LoginProps = {
   email: string;
@@ -50,7 +52,7 @@ export default function Login() {
     >
       <VStack
         bg="orange.500"
-        w={isLessThan1024 ? "100%" : "50%"}
+        w={isLessThan1024 ? "100%" : "40%"}
         justifyContent="center"
         pb="5"
       >
@@ -60,47 +62,66 @@ export default function Login() {
         </Text>
       </VStack>
       <HStack
-        w={isLessThan1024 ? "100%" : "50%"}
+        w={isLessThan1024 ? "100%" : "60%"}
         display="flex"
         alignItems="center"
         justifyContent="center"
       >
         <Form
-          w={isLessThan1024 ? "100%" : "70%"}
+          w={isLessThan1024 ? "100%" : "60%"}
           boxShadow="0 0 10px rgba(0, 0, 0, 0.3)"
           p="10"
           borderRadius="md"
+          position="relative"
           onSubmit={handleSubmit(handleLoginSubmit)}
         >
+          <Image
+            src={patasDogIcon}
+            alt="Patas de Cachorro"
+            position="absolute"
+            top="10px"
+            right="10px"
+          />
           <Heading fontSize={["1.2rem", "1.5rem", "1.7rem"]} mb="10">
             Entre em sua conta
           </Heading>
-          <InputGroup
-            variant="outline"
-            inputType="email"
-            inputName="email"
-            labelText="E-mail"
-            autoFocus
-            maxLength={50}
-            {...register("email")}
-            borderWidth="2px"
-            _focus={{ borderColor: "orange.500", borderWidth: "2px" }}
-          />
-          <InputGroup
-            variant="outline"
-            inputType="password"
-            inputName="password"
-            labelText="Senha"
-            maxLength={8}
-            {...register("password")}
-            borderWidth="2px"
-            _focus={{ borderColor: "orange.500", borderWidth: "2px" }}
-          />
-          <Flex w="100%" justifyContent="flex-end">
+          <Flex maxW="500px" flexDir="column" gap="20px">
+            <Input
+              variant="outline"
+              inputType="email"
+              inputName="email"
+              labelText="E-mail"
+              placeholder="email@email.com"
+              maxLength={50}
+              {...register("email")}
+              border="none"
+              _focus={{ border: "none" }}
+            >
+              <MdEmail />
+            </Input>
+            <Input
+              variant="outline"
+              inputType="password"
+              inputName="password"
+              labelText="Senha"
+              placeholder="********"
+              maxLength={8}
+              {...register("password")}
+              border="none"
+              _focus={{ border: "none" }}
+            >
+              <RiLockPasswordFill />
+            </Input>
+          </Flex>
+          <Flex
+            w="100%"
+            justifyContent={isLessThan1024 ? "flex-start" : "flex-end"}
+            mt="5"
+          >
             <Button
               type="submit"
               colorScheme="orange"
-              w="150px"
+              w="120px"
               isLoading={isSubmitting}
               display="flex"
               alignItems="center"

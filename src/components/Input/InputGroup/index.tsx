@@ -33,7 +33,7 @@ const InputGroupBase: ForwardRefRenderFunction<
       <Flex
         w="100%"
         border="1px solid"
-        borderColor="gray.200"
+        borderColor="gray.400"
         _focusWithin={{ border: "2px solid", borderColor: "#DD6B20" }}
         borderRadius="md"
       >
