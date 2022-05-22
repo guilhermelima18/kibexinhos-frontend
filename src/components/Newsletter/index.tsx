@@ -1,6 +1,6 @@
 import { Box, Flex, Text, useMediaQuery } from "@chakra-ui/react";
 import { Button } from "../Button";
-import { Input } from "../Input";
+import { InputGeneric } from "../Input/InputGeneric";
 
 export const Newsletter = () => {
   const [isLessThan1080] = useMediaQuery("(max-width: 1080px)");
@@ -38,15 +38,15 @@ export const Newsletter = () => {
           justifyContent="flex-end"
           gap="10px"
         >
-          <Input
+          <InputGeneric
             bg="white"
             maxW="280px"
             inputType="text"
-            inputName="name"
+            inputName="nome"
             placeholder="Qual é o seu nome?"
             _focus={{ border: "2px solid", borderColor: "#FFB515" }}
           />
-          <Input
+          <InputGeneric
             bg="white"
             maxW="280px"
             inputType="email"

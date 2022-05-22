@@ -23,10 +23,19 @@ import { GoogleMaps } from "../../components/GoogleMaps";
 import { CardCachorros } from "../../components/Cards/CardProdutosMaisVendidos/CardCachorros";
 import { CardGatos } from "../../components/Cards/CardProdutosMaisVendidos/CardGatos";
 import { Newsletter } from "../../components/Newsletter";
+import { CardOfertas } from "../../components/Cards/CardOfertas";
+import { useEffect } from "react";
+import { useProdutosOfertas } from "../../hooks/useProdutosOfertas";
+import { Loading } from "../../components/Loading";
 
 export default function Home() {
+  const { getOfertas, produtosOfertas, loading } = useProdutosOfertas();
   const [isLessThan860] = useMediaQuery("(max-width: 860px)");
   const [isLessThan600] = useMediaQuery("(max-width: 600px)");
+
+  useEffect(() => {
+    getOfertas();
+  }, [getOfertas]);
 
   return (
     <MainLayout>
@@ -93,6 +102,16 @@ export default function Home() {
           <Image w="200px" src={marcaIcon3} alt="Marcas mais vendidas" />
           <Image w="200px" src={marcaIcon4} alt="Marcas mais vendidas" />
         </SimpleGrid>
+        <Heading
+          textAlign="left"
+          fontSize={["1.1rem", "1.3rem"]}
+          mt="10"
+          mb="5"
+        >
+          OFERTAS DO DIA
+        </Heading>
+        {loading ? <Loading /> : <CardOfertas produtos={produtosOfertas} />}
+
         <Heading
           textAlign="left"
           fontSize={["1.1rem", "1.3rem"]}

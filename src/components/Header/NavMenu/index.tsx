@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { HStack, Button, Text } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
+import { MenuCategorias } from "../MenuCategorias";
 
 export function NavMenu() {
   return (
@@ -15,16 +16,6 @@ export function NavMenu() {
           Início
         </Text>
       </Link>
-      <Link to="/categorias">
-        <Text
-          fontSize="0.9rem"
-          color="white"
-          fontWeight="bold"
-          _hover={{ textDecoration: "underline", cursor: "pointer" }}
-        >
-          Produtos
-        </Text>
-      </Link>
       <Link to="/blog">
         <Text
           fontSize="0.9rem"
@@ -35,6 +26,7 @@ export function NavMenu() {
           Blog
         </Text>
       </Link>
+      <MenuCategorias />
       <Link to="/login">
         <Text
           fontSize="0.9rem"
@@ -63,7 +55,7 @@ export function NavMenu() {
         >
           2
         </Text>
-        <Link to="/cart">
+        <Link to="/carrinho">
           <FaShoppingCart fontSize={24} color="white" />
         </Link>
       </Button>

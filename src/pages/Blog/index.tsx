@@ -40,8 +40,6 @@ export default function Blog() {
       pageSize: 3,
     });
 
-    console.log(response.results);
-
     if (response) {
       const postsFormatted = response.results.map((post) => ({
         uid: post.uid as string,
@@ -63,7 +61,7 @@ export default function Blog() {
 
   useEffect(() => {
     getPostsBlog();
-  }, []);
+  }, [getPostsBlog]);
 
   return (
     <MainLayout>
