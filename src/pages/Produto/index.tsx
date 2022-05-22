@@ -1,75 +1,158 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import {
   Flex,
   SimpleGrid,
   Image,
   Heading,
   Text,
-  HStack,
   VStack,
+  Box,
+  useMediaQuery,
+  TabPanels,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanel,
+  Table,
+  Tbody,
+  Tr,
+  Td,
 } from "@chakra-ui/react";
-import { FaShoppingCart } from "react-icons/fa";
-import { Header } from "../../components/Header";
+import { useProduto } from "../../hooks/useProduto";
 import { Layout } from "../../components/Layout";
-import { Button } from "../../components/Button";
+import { MainLayout } from "../../components/MainLayout";
 
 export default function Produto() {
+  const { id } = useParams();
+  const { getProduto, produto } = useProduto();
+  const [isLessThan450] = useMediaQuery("(max-width: 450px)");
+  const [isLessThan860] = useMediaQuery("(max-width: 860px)");
+
+  useEffect(() => {
+    if (id) {
+      getProduto(Number(id));
+    }
+  }, [id]);
+
+  if (produto === undefined || produto === null) return null;
+
   return (
-    <>
-      <Header />
+    <MainLayout>
       <Layout>
-        <Flex w="100%" flexDir="column" px="5" my="8" py="8">
-          <SimpleGrid minChildWidth="350px">
-            <Flex as="section" mr={["0", "0", "5"]}>
-              <Image
-                w={["100%", "100%", "400px"]}
-                borderRadius="md"
-                src=""
-                alt=""
-              />
+        <Flex
+          bg="white"
+          as="main"
+          w="100%"
+          flexDir="column"
+          my="5"
+          p="5"
+          borderRadius="md"
+        >
+          <VStack w="100%" my="10">
+            <Heading
+              fontWeight="semibold"
+              fontSize={["1.2rem", "1.6rem", "1.8rem"]}
+              textAlign="center"
+            >
+              {produto.nomeProduto}
+            </Heading>
+          </VStack>
+
+          <SimpleGrid
+            justifyItems={isLessThan450 ? "center" : ""}
+            minChildWidth="280px"
+            spacing={5}
+            px="5"
+          >
+            <Flex
+              w={["100%", "100%", "80%"]}
+              flexDir={isLessThan860 ? "column-reverse" : "row"}
+              justifyContent={isLessThan860 ? "flex-end" : ""}
+            >
+              <Box
+                w="100%"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Image
+                  w="100%"
+                  maxW="200px"
+                  src={produto.imageProduto[0].imagem}
+                  alt={produto.nomeProduto}
+                />
+              </Box>
             </Flex>
-            <Flex flexDir="column" py="5">
-              <Heading fontSize="2xl" lineHeight="34px" mb="3">
-                Teste
-              </Heading>
-              <HStack my="5" justifyContent="space-between">
-                <Text>
-                  <strong>Código: </strong>
-                  1000021000221002
-                </Text>
-                <Text>
-                  <strong>Marca: </strong>
-                </Text>
-              </HStack>
-              <HStack w="100%" justifyContent="space-between">
-                <VStack alignItems="flex-start">
-                  <Text>
-                    <strong>Em estoque: </strong>
-                  </Text>
-                  <Text>
-                    <strong>Valor: </strong>
-                  </Text>
-                </VStack>
-                <Button maxWidth="80px" mt="0" onClick={() => {}}>
-                  <FaShoppingCart fontSize={24} color="white" />
-                </Button>
-              </HStack>
-              <Flex my="5">
-                {/* <Input
-                  labelText="Calcular frete"
-                  inputName="calcFrete"
-                  inputType="text"
-                  variant="flushed"
-                  borderColor="gray.400"
-                  _focus={{ borderColor: "orange.500" }}
-                /> */}
-              </Flex>
-              <HStack alignItems="center">
-                <Button mt="0">Calcular</Button>
-              </HStack>
-            </Flex>
+            <Flex w="100%" flexDir="column" py="5"></Flex>
           </SimpleGrid>
+
+          <Flex w="100%" flexDir="column" my="10">
+            <VStack
+              w="100%"
+              alignItems="flex-start"
+              border="1px solid"
+              borderColor="gray.300"
+              p="5"
+              borderRadius="5px"
+            >
+              <Heading fontSize="1.5rem" fontWeight="semibold" mb="3">
+                Informações do Produto
+              </Heading>
+              <div dangerouslySetInnerHTML={{ __html: produto.descricao }} />
+            </VStack>
+
+            <Tabs size="md" variant="enclosed" mt="10">
+              <TabList>
+                <Tab
+                  _selected={{ color: "white", bg: "orange.500" }}
+                  _focus={{ border: "none" }}
+                >
+                  Informações do Produto
+                </Tab>
+                <Tab
+                  _selected={{ color: "white", bg: "orange.500" }}
+                  _focus={{ border: "none" }}
+                >
+                  Informações Nutricionais
+                </Tab>
+              </TabList>
+              <TabPanels border="1px solid" borderColor="gray.200">
+                <TabPanel>
+                  <Flex w="100%" flexDir="column" overflowX="auto">
+                    <Table width="500px" variant="striped">
+                      <Tbody>
+                        <Tr>
+                          <Td>Código</Td>
+                          <Td>128738878</Td>
+                        </Tr>
+                        <Tr>
+                          <Td>Código Fabricante</Td>
+                          <Td>156767</Td>
+                        </Tr>
+                        <Tr>
+                          <Td>Categoria</Td>
+                          <Td>Ração para Cachorros</Td>
+                        </Tr>
+                        <Tr>
+                          <Td>Marca</Td>
+                          <Td>Pedigree</Td>
+                        </Tr>
+                      </Tbody>
+                    </Table>
+                  </Flex>
+                </TabPanel>
+                <TabPanel>
+                  <Box w="100%" p="5" display="flex" flexDir="column">
+                    <Text>{produto.informacaoNutricional}</Text>
+                  </Box>
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          </Flex>
         </Flex>
       </Layout>
-    </>
+    </MainLayout>
   );
 }

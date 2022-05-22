@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   Flex,
   Heading,
@@ -7,11 +9,17 @@ import {
   SimpleGrid,
   Image,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { SwiperCarousel } from "../../components/Carousel/SwiperCarousel";
 import { Layout } from "../../components/Layout";
 import { MainLayout } from "../../components/MainLayout";
+import { GoogleMaps } from "../../components/GoogleMaps";
+import { CardCachorros } from "../../components/Cards/CardProdutosMaisVendidos/CardCachorros";
+import { CardGatos } from "../../components/Cards/CardProdutosMaisVendidos/CardGatos";
+import { Newsletter } from "../../components/Newsletter";
+import { CardOfertas } from "../../components/Cards/CardOfertas";
+import { useProdutosOfertas } from "../../hooks/useProdutosOfertas";
+import { Loading } from "../../components/Loading";
 import bannerFreteGratisImg from "../../assets/banner-fretes-gratis.svg";
 import patasDogImg from "../../assets/patas-dog.svg";
 import marcaIcon1 from "../../assets/marca-1.svg";
@@ -19,14 +27,6 @@ import marcaIcon2 from "../../assets/marca-2.svg";
 import marcaIcon3 from "../../assets/marca-3.svg";
 import marcaIcon4 from "../../assets/marca-4.svg";
 import dogImg from "../../assets/dog.png";
-import { GoogleMaps } from "../../components/GoogleMaps";
-import { CardCachorros } from "../../components/Cards/CardProdutosMaisVendidos/CardCachorros";
-import { CardGatos } from "../../components/Cards/CardProdutosMaisVendidos/CardGatos";
-import { Newsletter } from "../../components/Newsletter";
-import { CardOfertas } from "../../components/Cards/CardOfertas";
-import { useEffect } from "react";
-import { useProdutosOfertas } from "../../hooks/useProdutosOfertas";
-import { Loading } from "../../components/Loading";
 
 export default function Home() {
   const { getOfertas, produtosOfertas, loading } = useProdutosOfertas();

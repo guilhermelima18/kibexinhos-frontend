@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   Menu,
   MenuButton,
@@ -29,56 +30,66 @@ export const MenuCategorias = () => {
         Categorias
       </MenuButton>
       <MenuList>
-        <MenuItem minH="48px">
-          <Image
-            boxSize="2rem"
-            borderRadius="full"
-            src={dogsImg}
-            alt="Cachorros"
-            mr="12px"
-          />
-          <span>Cachorros</span>
-        </MenuItem>
-        <MenuItem minH="40px">
-          <Image
-            boxSize="2rem"
-            borderRadius="full"
-            src={catsImg}
-            alt="Gatos"
-            mr="12px"
-          />
-          <span>Gatos</span>
-        </MenuItem>
-        <MenuItem minH="40px">
-          <Image
-            boxSize="2rem"
-            borderRadius="full"
-            src={birdsImg}
-            alt="Aves"
-            mr="12px"
-          />
-          <span>Aves</span>
-        </MenuItem>
-        <MenuItem minH="40px">
-          <Image
-            boxSize="2rem"
-            borderRadius="full"
-            src={fishsImg}
-            alt="Peixes"
-            mr="12px"
-          />
-          <span>Peixes</span>
-        </MenuItem>
-        <MenuItem minH="40px">
-          <Image
-            boxSize="2rem"
-            borderRadius="full"
-            src={hamstersimg}
-            alt="Roedores"
-            mr="12px"
-          />
-          <span>Roedores</span>
-        </MenuItem>
+        <Link to="/produtos/cachorros">
+          <MenuItem minH="48px">
+            <Image
+              boxSize="2rem"
+              borderRadius="full"
+              src={dogsImg}
+              alt="Cachorros"
+              mr="12px"
+            />
+            <span>Cachorros</span>
+          </MenuItem>
+        </Link>
+        <Link to="/produtos/gatos">
+          <MenuItem minH="40px">
+            <Image
+              boxSize="2rem"
+              borderRadius="full"
+              src={catsImg}
+              alt="Gatos"
+              mr="12px"
+            />
+            <span>Gatos</span>
+          </MenuItem>
+        </Link>
+        <Link to="produtos/aves">
+          <MenuItem minH="40px">
+            <Image
+              boxSize="2rem"
+              borderRadius="full"
+              src={birdsImg}
+              alt="Aves"
+              mr="12px"
+            />
+            <span>Aves</span>
+          </MenuItem>
+        </Link>
+        <Link to="/produtos/peixes">
+          <MenuItem minH="40px">
+            <Image
+              boxSize="2rem"
+              borderRadius="full"
+              src={fishsImg}
+              alt="Peixes"
+              mr="12px"
+            />
+            <span>Peixes</span>
+          </MenuItem>
+        </Link>
+        <Link to="/produtos/roedores">
+          <MenuItem minH="40px">
+            <Image
+              boxSize="2rem"
+              borderRadius="full"
+              src={hamstersimg}
+              alt="Roedores"
+              mr="12px"
+            />
+            <span>Roedores</span>
+          </MenuItem>
+        </Link>
       </MenuList>
     </Menu>
   );

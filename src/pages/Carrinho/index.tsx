@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   Box,
   Flex,
@@ -10,7 +11,6 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { FaPeopleCarry, FaTruck } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { CarrinhoItem } from "../../components/CarrinhoItem";
 import { Layout } from "../../components/Layout";
