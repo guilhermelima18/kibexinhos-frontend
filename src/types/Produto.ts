@@ -22,4 +22,5 @@ export type ProdutosProps = {
   peso: number;
   precoDescontado: number;
   tipoProdutoId: number;
+  petId: number;
 };

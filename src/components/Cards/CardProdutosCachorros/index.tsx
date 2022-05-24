@@ -2,6 +2,7 @@ import { Flex, VStack, Heading, Text, Box } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ProdutosProps } from "../../../types/Produto";
+import { formatCurrency } from "../../../utils/formatCurrency";
 import { Button } from "../../Button";
 
 type CardProdutosCachorrosProps = {
@@ -64,7 +65,7 @@ export function CardProdutosCachorros({ produto }: CardProdutosCachorrosProps) {
           gap="10px"
         >
           <Text w="100%" textAlign="right" fontSize="0.9rem" fontWeight="bold">
-            {produto.preco}
+            {formatCurrency(produto.preco)}
           </Text>
           <Link to={`/produto/${produto.id}`}>
             <Button fontSize="0.9rem" w="100%" gap="10px" colorScheme="orange">

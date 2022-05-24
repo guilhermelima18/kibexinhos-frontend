@@ -1,6 +1,7 @@
 import { Box, Flex, VStack, Text } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
 import { ProdutosProps } from "../../../types/Produto";
+import { formatCurrency } from "../../../utils/formatCurrency";
 import { Button } from "../../Button";
 import { OwlCarouselReact } from "../../Carousel/OwlCarousel";
 
@@ -91,7 +92,7 @@ export const CardOfertas = ({ produtos }: CardOfertasProps) => {
                     fontSize="0.9rem"
                     fontWeight="bold"
                   >
-                    {produto.preco}
+                    {formatCurrency(produto.preco)}
                   </Text>
                   <Button
                     fontSize="0.9rem"

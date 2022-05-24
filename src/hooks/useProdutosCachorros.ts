@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import { toast } from "react-toastify";
 import { api } from "../services/api";
-import { formatCurrency } from "../utils/formatCurrency";
 import { ProdutosProps } from "../types/Produto";
 
 type ParamsProps = {
@@ -29,14 +28,7 @@ export function useProdutosCachorros() {
 
         if (response) {
           if (response.status === 200) {
-            const data = response.data.produtos.map(
-              (produto: ProdutosProps) => ({
-                ...produto,
-                preco: formatCurrency(produto.preco),
-              })
-            );
-
-            setProdutosCachorros(data);
+            setProdutosCachorros(response.data.produtos);
           }
         }
       } catch (error) {
