@@ -43,8 +43,6 @@ export default function Produto() {
   const [image, setImage] = useState("");
   const [precoParcelas, setPrecoParcelas] = useState<number>(0);
 
-  /* console.log(produto); */
-
   useEffect(() => {
     if (id) {
       getProduto(Number(id));

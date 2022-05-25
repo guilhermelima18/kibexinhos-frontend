@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
-import { Flex, Heading, Text, Image } from "@chakra-ui/react";
+import {
+  Flex,
+  Heading,
+  Text,
+  Image,
+  Box,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { Button } from "../../Button";
 import { FaDog } from "react-icons/fa";
 
@@ -20,6 +27,8 @@ type CardBlogProps = {
 };
 
 export function CardBlog({ posts }: CardBlogProps) {
+  const [isLessThan500] = useMediaQuery("(max-width: 500px)");
+
   return (
     <>
       {posts.map((post) => (
@@ -27,8 +36,7 @@ export function CardBlog({ posts }: CardBlogProps) {
           key={post.uid}
           as="div"
           bg="white"
-          flexDir="column"
-          alignItems="center"
+          flexDir={isLessThan500 ? "column" : "row"}
           border="1px solid rgba(200, 200, 200, 0.6)"
           borderRadius="md"
           transition="transform 0.2s"
@@ -37,42 +45,39 @@ export function CardBlog({ posts }: CardBlogProps) {
           <Flex as="div" w="100%" mb="4">
             <Image w="100%" src={post.banner.url} alt="" borderRadius="md" />
           </Flex>
-          <Heading
-            fontSize="1.2rem"
-            lineHeight="30px"
-            mb="2"
-            px="2"
-            textAlign="center"
-          >
-            {post.title.text}
-          </Heading>
-          <Flex w="100%" flexDir="column" alignItems="center" px="5" my="2">
-            <Text fontSize="0.9rem">{post.first_publication_date}</Text>
-          </Flex>
-          <Link to={`blog/post`}>
-            <Button
-              colorScheme="orange"
-              size="md"
-              mt="3"
-              mx="auto"
+          <Flex w="100%" flexDir="column" justifyContent="space-between" p="5">
+            <Box w="100%" display="flex" flexDir="column">
+              <Heading fontSize="1.2rem" lineHeight="26px">
+                {post.title.text}
+              </Heading>
+              <Box w="100%" display="flex" flexDir="column" mt="5">
+                <Text fontSize="0.9rem">{post.first_publication_date}</Text>
+                <Text fontWeight="bold" fontSize="0.7rem">
+                  {post.author}
+                </Text>
+              </Box>
+            </Box>
+            <Box
+              w="100%"
               display="flex"
               alignItems="center"
-              justifyContent="center"
-              gap="10px"
+              justifyContent="flex-end"
             >
-              <FaDog color="white" size={30} />
-            </Button>
-          </Link>
-          <Text
-            w="100%"
-            textAlign="right"
-            mt="5"
-            fontWeight="bold"
-            fontSize="0.7rem"
-            p="2"
-          >
-            {post.author}
-          </Text>
+              <Link to={`/blog/post`}>
+                <Button
+                  colorScheme="orange"
+                  mt="3"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  gap="10px"
+                >
+                  <FaDog color="white" size={30} />
+                  Ver Post
+                </Button>
+              </Link>
+            </Box>
+          </Flex>
         </Flex>
       ))}
     </>

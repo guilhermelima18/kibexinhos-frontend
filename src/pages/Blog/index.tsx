@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useState } from "react";
 import {
   Flex,
@@ -61,7 +62,7 @@ export default function Blog() {
 
   useEffect(() => {
     getPostsBlog();
-  }, [getPostsBlog]);
+  }, []);
 
   return (
     <MainLayout>
@@ -71,7 +72,7 @@ export default function Blog() {
             minChildWidth="380px"
             width="100%"
             spacing={20}
-            mt="10"
+            mt="2"
             px="3"
           >
             <VStack
@@ -102,9 +103,9 @@ export default function Blog() {
             <Divider orientation="horizontal" />
           </Center>
 
-          <SimpleGrid minChildWidth="250px" spacing={5}>
+          <Flex w="100%" maxW="700px" mx="auto" flexDir="column" gap="20px">
             <CardBlog posts={posts} />
-          </SimpleGrid>
+          </Flex>
         </Flex>
       </Layout>
     </MainLayout>
