@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Flex,
@@ -27,11 +27,15 @@ import marcaIcon2 from "../../assets/marca-2.svg";
 import marcaIcon3 from "../../assets/marca-3.svg";
 import marcaIcon4 from "../../assets/marca-4.svg";
 import dogImg from "../../assets/dog.png";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Home() {
+  const { userData } = useContext(AuthContext);
   const { getOfertas, produtosOfertas, loading } = useProdutosOfertas();
   const [isLessThan860] = useMediaQuery("(max-width: 860px)");
   const [isLessThan600] = useMediaQuery("(max-width: 600px)");
+
+  console.log(userData);
 
   useEffect(() => {
     getOfertas();

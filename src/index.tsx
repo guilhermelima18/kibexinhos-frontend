@@ -1,12 +1,14 @@
-import { ChakraProvider } from "@chakra-ui/react";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
+import { BrowserRouter } from "react-router-dom";
+import { ChakraProvider } from "@chakra-ui/react";
+import { ToastContainer } from "react-toastify";
+import { AuthProvider } from "./contexts/AuthContext";
 import reportWebVitals from "./reportWebVitals";
 import { PrismicProvider } from "@prismicio/react";
 import { client } from "./services/prismic";
+import App from "./App";
 import { theme } from "./styles/theme";
-import { ToastContainer } from "react-toastify";
 import "swiper/css";
 import "swiper/scss/navigation";
 import "swiper/scss/pagination";
@@ -19,8 +21,12 @@ root.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <PrismicProvider client={client}>
-        <App />
-        <ToastContainer autoClose={3000} />
+        <BrowserRouter>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+          <ToastContainer autoClose={3000} />
+        </BrowserRouter>
       </PrismicProvider>
     </ChakraProvider>
   </React.StrictMode>

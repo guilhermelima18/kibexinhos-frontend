@@ -1,5 +1,4 @@
 import { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Flex } from "@chakra-ui/react";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
 import { Button } from "../../Button";
@@ -29,10 +28,9 @@ export type FormCadastroProps = {
 
 export const StepsForm = () => {
   const { cadastrarCliente } = useCadastroCliente();
-  const { nextStep, prevStep, setStep, activeStep } = useSteps({
+  const { nextStep, prevStep, activeStep } = useSteps({
     initialStep: 0,
   });
-  const navigate = useNavigate();
   const [cpfOrCnpj, setCpfOrCnpj] = useState("");
   const defaultValues = {
     inscricaoEstadual: "",
@@ -55,8 +53,7 @@ export const StepsForm = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    let params = {} as ClienteProps;
-    params = {
+    let params = {
       nomeCliente: formCadastro.nome,
       dataNascimento: formCadastro.dataNascimento,
       apelido: formCadastro.apelido,
@@ -68,7 +65,7 @@ export const StepsForm = () => {
       celular2: formCadastro.celular2,
       ativo: true,
       newsletter: formCadastro.newsletter,
-    };
+    } as ClienteProps;
 
     if (formCadastro.rg !== "") {
       params.rgie = `${formCadastro.rg}`;
@@ -86,8 +83,6 @@ export const StepsForm = () => {
       params.nomeFantasia = `${formCadastro.nomeFantasia}`;
     }
 
-    setStep(2);
-    navigate("/");
     cadastrarCliente(params);
   };
 

@@ -54,6 +54,7 @@ export const StepTwo = ({ formCadastro, setFormCadastro }: StepTwoProps) => {
           variant="outline"
           inputName="celular1"
           inputType="text"
+          maxLength={11}
           value={formCadastro.celular1}
           onChange={handleChange}
           labelText="Celular 1"
@@ -63,6 +64,7 @@ export const StepTwo = ({ formCadastro, setFormCadastro }: StepTwoProps) => {
         <InputGroup
           variant="outline"
           inputName="celular2"
+          maxLength={11}
           inputType="text"
           value={formCadastro.celular2}
           onChange={handleChange}
@@ -86,6 +88,7 @@ export const StepTwo = ({ formCadastro, setFormCadastro }: StepTwoProps) => {
           inputName="cep"
           inputType="text"
           labelText="CEP"
+          maxLength={8}
           value={formCadastro.cep}
           onChange={handleChange}
           placeholder="xxxxx-xxx"
@@ -109,6 +112,7 @@ export const StepTwo = ({ formCadastro, setFormCadastro }: StepTwoProps) => {
           variant="outline"
           inputName="senha"
           inputType="password"
+          maxLength={8}
           value={formCadastro.senha}
           onChange={handleChange}
           labelText="Senha"

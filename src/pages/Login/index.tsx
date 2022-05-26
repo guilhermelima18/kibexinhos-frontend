@@ -18,6 +18,8 @@ import patasDogIcon from "../../assets/patas-dog.svg";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { FiLogIn } from "react-icons/fi";
 import { MdEmail } from "react-icons/md";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 type LoginProps = {
   email: string;
@@ -34,6 +36,7 @@ const validationFormLogin = yup.object({
 
 export default function Login() {
   const [isLessThan1024] = useMediaQuery("(max-width: 1024px)");
+  const { signIn } = useContext(AuthContext);
   const {
     handleSubmit,
     register,
@@ -41,7 +44,9 @@ export default function Login() {
   } = useForm<LoginProps>({ resolver: yupResolver(validationFormLogin) });
 
   const handleLoginSubmit = (data: LoginProps) => {
-    console.log(data);
+    if (data.email !== "" && data.password !== "") {
+      signIn(data);
+    }
   };
 
   return (
@@ -85,7 +90,7 @@ export default function Login() {
           <Heading fontSize={["1.2rem", "1.5rem", "1.7rem"]} mb="10">
             Entre em sua conta
           </Heading>
-          <Flex maxW="500px" flexDir="column" gap="20px">
+          <Flex maxW="500px" flexDir="column" gap="10px">
             <Input
               variant="outline"
               inputType="email"
@@ -99,6 +104,9 @@ export default function Login() {
             >
               <MdEmail />
             </Input>
+            <p style={{ fontSize: "0.75rem", color: "red" }}>
+              {errors.email?.message}
+            </p>
             <Input
               variant="outline"
               inputType="password"
@@ -112,6 +120,9 @@ export default function Login() {
             >
               <RiLockPasswordFill />
             </Input>
+            <p style={{ fontSize: "0.75rem", color: "red" }}>
+              {errors.password?.message}
+            </p>
           </Flex>
           <Flex
             w="100%"

@@ -49,6 +49,7 @@ export const StepOne = ({
             inputName="rg"
             inputType="text"
             labelText="RG"
+            maxLength={9}
             placeholder="00.000.000-0"
             value={formCadastro.rg}
             onChange={handleChange}
