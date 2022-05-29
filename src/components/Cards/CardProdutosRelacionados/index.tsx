@@ -1,4 +1,4 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Image, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { OwlCarouselReact } from "../../Carousel/OwlCarousel";
 import { formatCurrency } from "../../../utils/formatCurrency";
@@ -29,6 +29,7 @@ export const CardProdutosRelacionados = ({ produtos }: CardOfertasProps) => {
                 p="1"
                 gap="10px"
                 cursor="pointer"
+                border="1px solid rgba(200, 200, 200, 0.4)"
                 borderRadius="10px"
                 _hover={{
                   boxShadow: "0 0 10px rgba(200, 200, 200, 0.8)",
@@ -36,7 +37,7 @@ export const CardProdutosRelacionados = ({ produtos }: CardOfertasProps) => {
                 }}
               >
                 <Flex
-                  w="80px"
+                  w="100%"
                   justifyContent="center"
                   mb="3"
                   borderBottom="1px solid"
@@ -44,10 +45,11 @@ export const CardProdutosRelacionados = ({ produtos }: CardOfertasProps) => {
                   position="relative"
                   pb="3"
                 >
-                  <img
+                  <Image
+                    w="100%"
+                    maxW="120px"
                     src={produto.imageProduto[0].imagem}
                     alt={produto.nomeProduto}
-                    style={{ width: "100px" }}
                   />
                   <Text
                     bg="orange.500"

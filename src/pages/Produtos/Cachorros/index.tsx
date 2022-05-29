@@ -99,6 +99,10 @@ export default function Cachorros() {
                 <SkeletonCircle size="10" />
                 <SkeletonText mt="4" noOfLines={4} spacing="4" />
               </Box>
+            ) : produtosCachorros && produtosCachorros.length === 0 ? (
+              <Box padding="6" boxShadow="lg" bg="white" my="10" py="10">
+                <Text>Não há produtos.</Text>
+              </Box>
             ) : (
               <SimpleGrid
                 minChildWidth="250px"

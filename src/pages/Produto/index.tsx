@@ -21,6 +21,8 @@ import {
   Td,
   Input,
   useDisclosure,
+  SkeletonCircle,
+  SkeletonText,
 } from "@chakra-ui/react";
 import { useProduto } from "../../hooks/useProduto";
 import { FaShoppingCart, FaStar } from "react-icons/fa";
@@ -32,12 +34,19 @@ import { formatCurrency } from "../../utils/formatCurrency";
 import "react-medium-image-zoom/dist/styles.css";
 import { ModalParcelas } from "../../components/Modal/ModalParcelas";
 import { CardProdutosRelacionados } from "../../components/Cards/CardProdutosRelacionados";
+import { useCarrinho } from "../../hooks/useCarrinho";
 
 export default function Produto() {
+  const { adicionarProdutosCarrinho } = useCarrinho();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { id } = useParams();
-  const { getProduto, getProdutosRelacionados, produto, produtosRelacionados } =
-    useProduto();
+  const {
+    getProduto,
+    getProdutosRelacionados,
+    produto,
+    produtosRelacionados,
+    loading,
+  } = useProduto();
   const [isLessThan450] = useMediaQuery("(max-width: 450px)");
   const [isLessThan860] = useMediaQuery("(max-width: 860px)");
   const [image, setImage] = useState("");
@@ -91,6 +100,12 @@ export default function Produto() {
   }, [produto]);
 
   const stars: number[] = [1, 2, 3, 4, 5];
+
+  async function handleAdicionarCarrinho(produtoId: number) {
+    if (produtoId) {
+      await adicionarProdutosCarrinho(produtoId);
+    }
+  }
 
   if (produto === undefined || produto === null) return null;
 
@@ -154,7 +169,7 @@ export default function Produto() {
                   <Zoom>
                     <Image
                       w="100%"
-                      maxW="200px"
+                      maxW="300px"
                       src={image}
                       alt={produto.nomeProduto}
                     />
@@ -184,6 +199,7 @@ export default function Produto() {
                     display="flex"
                     alignItems="center"
                     gap="10px"
+                    onClick={() => handleAdicionarCarrinho(produto.id)}
                   >
                     <FaShoppingCart color="white" size={20} />
                     Adicionar ao carrinho
@@ -244,7 +260,14 @@ export default function Produto() {
               <Heading fontSize="1.5rem" my="10">
                 Produtos Relacionados
               </Heading>
-              <CardProdutosRelacionados produtos={produtosRelacionados} />
+              {loading ? (
+                <Box padding="6" boxShadow="lg" bg="white" my="10" py="10">
+                  <SkeletonCircle size="10" />
+                  <SkeletonText mt="4" noOfLines={4} spacing="4" />
+                </Box>
+              ) : (
+                <CardProdutosRelacionados produtos={produtosRelacionados} />
+              )}
             </Flex>
 
             <Flex w="100%" flexDir="column" my="10">

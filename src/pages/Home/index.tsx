@@ -35,8 +35,6 @@ export default function Home() {
   const [isLessThan860] = useMediaQuery("(max-width: 860px)");
   const [isLessThan600] = useMediaQuery("(max-width: 600px)");
 
-  console.log(userData);
-
   useEffect(() => {
     getOfertas();
   }, [getOfertas]);
@@ -114,7 +112,13 @@ export default function Home() {
         >
           OFERTAS DO DIA
         </Heading>
-        {loading ? <Loading /> : <CardOfertas produtos={produtosOfertas} />}
+        {loading ? (
+          <Loading />
+        ) : produtosOfertas.length === 0 ? (
+          <Text>Não há ofertas no momento.</Text>
+        ) : (
+          <CardOfertas produtos={produtosOfertas} />
+        )}
 
         <Heading
           textAlign="left"

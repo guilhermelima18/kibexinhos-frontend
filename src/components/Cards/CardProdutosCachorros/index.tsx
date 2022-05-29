@@ -1,4 +1,4 @@
-import { Flex, VStack, Heading, Text, Box } from "@chakra-ui/react";
+import { Flex, VStack, Heading, Text, Box, Image } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ProdutosProps } from "../../../types/Produto";
@@ -32,10 +32,11 @@ export function CardProdutosCachorros({ produto }: CardProdutosCachorrosProps) {
         borderBottomColor="gray.200"
         pb="3"
       >
-        <img
+        <Image
+          w="100%"
+          maxW="220px"
           src={produto.imageProduto[0].imagem}
           alt={produto.nomeProduto}
-          style={{ width: "100%", maxWidth: "100px" }}
         />
       </Flex>
       <VStack
@@ -57,10 +58,8 @@ export function CardProdutosCachorros({ produto }: CardProdutosCachorrosProps) {
         </Heading>
         <Box
           w="100%"
-          maxW="220px"
           display="flex"
           flexDir="column"
-          alignItems="center"
           justifyContent="center"
           gap="10px"
         >

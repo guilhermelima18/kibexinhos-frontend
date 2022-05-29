@@ -21,11 +21,6 @@ export function useCadastroCliente() {
         Swal.fire({
           icon: "success",
           title: "Cadastro efetuado com sucesso.",
-          showConfirmButton: true,
-        });
-        Swal.fire({
-          icon: "success",
-          title: "Cadastro efetuado com sucesso.",
           confirmButtonColor: "#DD6B20",
           confirmButtonText: "OK",
         }).then((result) => {

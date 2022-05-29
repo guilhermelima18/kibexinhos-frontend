@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Box,
@@ -5,21 +7,43 @@ import {
   Heading,
   Radio,
   RadioGroup,
+  SkeletonCircle,
+  SkeletonText,
   Text,
   Textarea,
   useMediaQuery,
   VStack,
 } from "@chakra-ui/react";
 import { FaPeopleCarry, FaTruck } from "react-icons/fa";
+import { useCarrinho } from "../../hooks/useCarrinho";
 import { Button } from "../../components/Button";
 import { CarrinhoItem } from "../../components/CarrinhoItem";
 import { Layout } from "../../components/Layout";
 import { MainLayout } from "../../components/MainLayout";
 import { Select } from "../../components/Select";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 export default function Carrinho() {
   const [isLessThan940] = useMediaQuery("(max-width: 940px)");
   const [isLessThan500] = useMediaQuery("(max-width: 500px)");
+  const { getProdutosCarrinho, itensCarrinho, loading } = useCarrinho();
+  const [reloadItens, setReloadItens] = useState(false);
+
+  console.log(reloadItens);
+
+  useEffect(() => {
+    getProdutosCarrinho();
+  }, [reloadItens]);
+
+  const total = useMemo(() => {
+    const totalPedido = itensCarrinho.reduce((prev, item) => {
+      prev += item.produto.preco * item.quantidade;
+
+      return prev;
+    }, 0);
+
+    return totalPedido;
+  }, [itensCarrinho]);
 
   return (
     <MainLayout>
@@ -111,7 +135,17 @@ export default function Carrinho() {
                 borderColor="gray.200"
                 mt="5"
               >
-                <CarrinhoItem />
+                {loading ? (
+                  <Box padding="6" boxShadow="lg" bg="white" my="10" py="10">
+                    <SkeletonCircle size="10" />
+                    <SkeletonText mt="4" noOfLines={4} spacing="4" />
+                  </Box>
+                ) : (
+                  itensCarrinho &&
+                  itensCarrinho.map((item) => (
+                    <CarrinhoItem item={item} setReloadItens={setReloadItens} />
+                  ))
+                )}
               </Flex>
             </Flex>
 
@@ -168,7 +202,7 @@ export default function Carrinho() {
                 borderColor="gray.200"
                 p="5"
               >
-                <Text fontSize="1.5rem">Total: R$ 2.000,00</Text>
+                <Text fontSize="1.5rem">Total: {formatCurrency(total)}</Text>
               </Flex>
             </Flex>
           </Flex>

@@ -1,4 +1,4 @@
-import { Box, Flex, VStack, Text } from "@chakra-ui/react";
+import { Box, Flex, VStack, Text, Image } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
 import { ProdutosProps } from "../../../types/Produto";
 import { formatCurrency } from "../../../utils/formatCurrency";
@@ -43,10 +43,11 @@ export const CardOfertas = ({ produtos }: CardOfertasProps) => {
                 position="relative"
                 pb="3"
               >
-                <img
+                <Image
+                  w="100%"
+                  maxW="220px"
                   src={produto.imageProduto[0].imagem}
                   alt={produto.nomeProduto}
-                  style={{ width: "100%", maxWidth: "100px" }}
                 />
                 <Text
                   bg="orange.500"

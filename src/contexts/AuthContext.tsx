@@ -62,6 +62,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     return {} as UserProps;
   });
+
   const [token, setToken] = useState<TokenProps>(() => {
     const getToken = localStorage.getItem("kibexinhos.token");
     const getRefreshToken = localStorage.getItem("kibexinhos.refreshToken");
