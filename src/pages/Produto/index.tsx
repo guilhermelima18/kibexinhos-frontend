@@ -27,14 +27,14 @@ import {
 import { useProduto } from "../../hooks/useProduto";
 import { FaShoppingCart, FaStar } from "react-icons/fa";
 import Zoom from "react-medium-image-zoom";
+import { useCarrinho } from "../../hooks/useCarrinho";
 import { Layout } from "../../components/Layout";
 import { MainLayout } from "../../components/MainLayout";
 import { Button } from "../../components/Button";
-import { formatCurrency } from "../../utils/formatCurrency";
-import "react-medium-image-zoom/dist/styles.css";
 import { ModalParcelas } from "../../components/Modal/ModalParcelas";
 import { CardProdutosRelacionados } from "../../components/Cards/CardProdutosRelacionados";
-import { useCarrinho } from "../../hooks/useCarrinho";
+import { formatCurrency } from "../../utils/formatCurrency";
+import "react-medium-image-zoom/dist/styles.css";
 
 export default function Produto() {
   const { adicionarProdutosCarrinho } = useCarrinho();
@@ -248,7 +248,11 @@ export default function Produto() {
                         borderColor: "orange.500",
                       }}
                     />
-                    <Button colorScheme="orange" variant="outline">
+                    <Button
+                      colorScheme="orange"
+                      variant="outline"
+                      /* onClick={getFrete} */
+                    >
                       OK
                     </Button>
                   </Box>

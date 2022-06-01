@@ -12,8 +12,12 @@ type AsideSearchMobileProps = {
   onOpen: () => void;
   onClose: () => void;
   marcas: MarcasProps[];
+  tipoProduto: number[];
   marcasProdutos: number[];
+  porte: string[];
+  setTipoProduto: Dispatch<SetStateAction<number[]>>;
   setMarcasProdutos: Dispatch<SetStateAction<number[]>>;
+  setPorte: Dispatch<SetStateAction<string[]>>;
 };
 
 export const AsideSearchMobile = ({
@@ -21,8 +25,12 @@ export const AsideSearchMobile = ({
   onOpen,
   onClose,
   marcas,
+  tipoProduto,
   marcasProdutos,
+  porte,
+  setTipoProduto,
   setMarcasProdutos,
+  setPorte,
 }: AsideSearchMobileProps) => {
   useEffect(() => {
     onClose();
@@ -49,7 +57,11 @@ export const AsideSearchMobile = ({
       <Flex w="100%" mt="10">
         <AsideSearch
           marcas={marcas}
+          tipoProduto={tipoProduto}
           marcasProdutos={marcasProdutos}
+          porte={porte}
+          setTipoProduto={setTipoProduto}
+          setPorte={setPorte}
           setMarcasProdutos={setMarcasProdutos}
           size="100%"
         />

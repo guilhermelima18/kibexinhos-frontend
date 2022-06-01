@@ -30,16 +30,20 @@ export default function Cachorros() {
     useProdutosCachorros();
   const { getMarcas, marcas } = useMarcas();
   const [page, setPage] = useState(1);
+  const [tipoProduto, setTipoProduto] = useState<number[]>([]);
   const [marcasProdutos, setMarcasProdutos] = useState<number[]>([]);
+  const [porte, setPorte] = useState<string[]>([]);
 
   useEffect(() => {
     const params = {
+      tipo: tipoProduto,
       marcas: marcasProdutos,
+      porte: porte,
     };
     getProdutosCachorros(params, page);
 
     window.scrollTo(0, 0);
-  }, [page, marcasProdutos]);
+  }, [page, tipoProduto, marcasProdutos, porte]);
 
   useEffect(() => {
     getMarcas();
@@ -52,7 +56,11 @@ export default function Cachorros() {
           {!isLessThan860 && (
             <AsideSearch
               marcas={marcas}
+              tipoProduto={tipoProduto}
               marcasProdutos={marcasProdutos}
+              porte={porte}
+              setTipoProduto={setTipoProduto}
+              setPorte={setPorte}
               setMarcasProdutos={setMarcasProdutos}
               size="25%"
             />
@@ -89,7 +97,11 @@ export default function Cachorros() {
                   onOpen={onOpen}
                   onClose={onClose}
                   marcas={marcas}
+                  tipoProduto={tipoProduto}
                   marcasProdutos={marcasProdutos}
+                  porte={porte}
+                  setTipoProduto={setTipoProduto}
+                  setPorte={setPorte}
                   setMarcasProdutos={setMarcasProdutos}
                 />
               </Flex>
@@ -105,7 +117,7 @@ export default function Cachorros() {
               </Box>
             ) : (
               <SimpleGrid
-                minChildWidth="250px"
+                columns={[1, 2, 3]}
                 spacing={5}
                 justifyItems="center"
                 my="10"

@@ -4,7 +4,9 @@ import { api } from "../services/api";
 import { ProdutosProps } from "../types/Produto";
 
 type ParamsProps = {
+  tipo: number[];
   marcas: number[];
+  porte: string[];
 };
 
 export function useProdutosCachorros() {
@@ -20,8 +22,16 @@ export function useProdutosCachorros() {
 
         let url = `/produto/tipopet/1?pagina=${page}`;
 
+        if (params.tipo.length > 0) {
+          url += `&tipo=${params.tipo}`;
+        }
+
         if (params.marcas.length > 0) {
-          url += `&marca=${params.marcas[0]}`;
+          url += `&marca=${params.marcas}`;
+        }
+
+        if (params.porte.length > 0) {
+          url += `&porte=${params.porte}`;
         }
 
         const response = await api.get(url);
