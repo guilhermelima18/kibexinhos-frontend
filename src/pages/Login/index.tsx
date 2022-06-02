@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import {
   Flex,
   HStack,
@@ -7,32 +8,19 @@ import {
   Heading,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { Form } from "../../components/Form";
-import { Button } from "../../components/Button";
-import { Input } from "../../components/Input";
-import logoKibexinhosIcon from "../../assets/logo-kibexinhos.png";
-import patasDogIcon from "../../assets/patas-dog.svg";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { FiLogIn } from "react-icons/fi";
 import { MdEmail } from "react-icons/md";
-import { useContext } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { AuthContext } from "../../contexts/AuthContext";
-
-type LoginProps = {
-  email: string;
-  password: string;
-};
-
-const validationFormLogin = yup.object({
-  email: yup.string().email("E-mail inválido").required("E-mail obrigatório"),
-  password: yup
-    .string()
-    .length(8, "No mínimo 8 letras ou números")
-    .required("Senha obrigatória"),
-});
+import { Form } from "../../components/Form";
+import { Button } from "../../components/Button";
+import { Input } from "../../components/Input";
+import { validationFormLogin } from "../../validations/Login";
+import { LoginProps } from "../../types/Login";
+import logoKibexinhosIcon from "../../assets/logo-kibexinhos.png";
+import patasDogIcon from "../../assets/patas-dog.svg";
 
 export default function Login() {
   const [isLessThan1024] = useMediaQuery("(max-width: 1024px)");
@@ -43,7 +31,7 @@ export default function Login() {
     formState: { errors, isSubmitting },
   } = useForm<LoginProps>({ resolver: yupResolver(validationFormLogin) });
 
-  const handleLoginSubmit = (data: LoginProps) => {
+  const handleLoginSubmit: SubmitHandler<LoginProps> = (data: LoginProps) => {
     if (data.email !== "" && data.password !== "") {
       signIn(data);
     }

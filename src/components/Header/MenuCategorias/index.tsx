@@ -30,7 +30,7 @@ export const MenuCategorias = () => {
         Categorias
       </MenuButton>
       <MenuList>
-        <Link to="/produtos/cachorros">
+        <Link to="/produtos/1">
           <MenuItem minH="48px">
             <Image
               boxSize="2rem"
@@ -42,7 +42,7 @@ export const MenuCategorias = () => {
             <span>Cachorros</span>
           </MenuItem>
         </Link>
-        <Link to="/produtos/gatos">
+        <Link to="/produtos/2">
           <MenuItem minH="40px">
             <Image
               boxSize="2rem"
@@ -54,7 +54,7 @@ export const MenuCategorias = () => {
             <span>Gatos</span>
           </MenuItem>
         </Link>
-        <Link to="produtos/aves">
+        <Link to="produtos/5">
           <MenuItem minH="40px">
             <Image
               boxSize="2rem"
@@ -66,7 +66,7 @@ export const MenuCategorias = () => {
             <span>Aves</span>
           </MenuItem>
         </Link>
-        <Link to="/produtos/peixes">
+        <Link to="/produtos/3">
           <MenuItem minH="40px">
             <Image
               boxSize="2rem"
@@ -78,7 +78,7 @@ export const MenuCategorias = () => {
             <span>Peixes</span>
           </MenuItem>
         </Link>
-        <Link to="/produtos/roedores">
+        <Link to="/produtos/4">
           <MenuItem minH="40px">
             <Image
               boxSize="2rem"

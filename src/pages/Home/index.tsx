@@ -1,4 +1,5 @@
-import { useContext, useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Flex,
@@ -27,17 +28,23 @@ import marcaIcon2 from "../../assets/marca-2.svg";
 import marcaIcon3 from "../../assets/marca-3.svg";
 import marcaIcon4 from "../../assets/marca-4.svg";
 import dogImg from "../../assets/dog.png";
-import { AuthContext } from "../../contexts/AuthContext";
+import { useProdutosCachorros } from "../../hooks/useProdutosCachorros";
+import { useProdutosGatos } from "../../hooks/useProdutosGatos";
 
 export default function Home() {
-  const { userData } = useContext(AuthContext);
   const { getOfertas, produtosOfertas, loading } = useProdutosOfertas();
+  const { getProdutosCachorrosMaisVendidos, produtosCachorrosMaisVendidos } =
+    useProdutosCachorros();
+  const { getProdutosGatosMaisVendidos, produtosGatosMaisVendidos } =
+    useProdutosGatos();
   const [isLessThan860] = useMediaQuery("(max-width: 860px)");
   const [isLessThan600] = useMediaQuery("(max-width: 600px)");
 
   useEffect(() => {
     getOfertas();
-  }, [getOfertas]);
+    getProdutosCachorrosMaisVendidos();
+    getProdutosGatosMaisVendidos();
+  }, []);
 
   return (
     <MainLayout>
@@ -128,7 +135,13 @@ export default function Home() {
         >
           MAIS VENDIDOS PARA CACHORROS
         </Heading>
-        <CardCachorros />
+        {loading ? (
+          <Loading />
+        ) : produtosCachorrosMaisVendidos.length === 0 ? (
+          <Text>Não há produto para cachorros no momento.</Text>
+        ) : (
+          <CardCachorros produtos={produtosCachorrosMaisVendidos} />
+        )}
 
         <Heading
           textAlign="left"
@@ -138,7 +151,13 @@ export default function Home() {
         >
           MAIS VENDIDOS PARA GATOS
         </Heading>
-        <CardGatos />
+        {loading ? (
+          <Loading />
+        ) : produtosGatosMaisVendidos.length === 0 ? (
+          <Text>Não há produto para gatos no momento.</Text>
+        ) : (
+          <CardGatos produtos={produtosGatosMaisVendidos} />
+        )}
         <Flex
           bg="#FFB515"
           w="100%"

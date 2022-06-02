@@ -1,29 +1,14 @@
 import { Flex, Switch, Text } from "@chakra-ui/react";
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { FormCadastroProps } from ".";
+import { useFormContext } from "react-hook-form";
 import { Button } from "../../Button";
 import { InputGroup } from "../../Input/InputGroup";
 import { Layout } from "../../Layout";
 
-type StepTwoProps = {
-  formCadastro: FormCadastroProps;
-  setFormCadastro: Dispatch<SetStateAction<FormCadastroProps>>;
-};
-
-export const StepTwo = ({ formCadastro, setFormCadastro }: StepTwoProps) => {
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.name !== "newsletter") {
-      setFormCadastro({
-        ...formCadastro,
-        [event.target.name]: event.target.value,
-      });
-    } else {
-      setFormCadastro({
-        ...formCadastro,
-        [event.target.name]: event.target.checked,
-      });
-    }
-  };
+export const StepTwo = () => {
+  const {
+    register,
+    formState: { errors, isSubmitting },
+  } = useFormContext();
 
   return (
     <Layout>
@@ -32,8 +17,7 @@ export const StepTwo = ({ formCadastro, setFormCadastro }: StepTwoProps) => {
           variant="outline"
           inputName="nome"
           inputType="text"
-          value={formCadastro.nome}
-          onChange={handleChange}
+          {...register("nome")}
           labelText="Nome"
           placeholder="Nome completo"
           borderWidth="2px"
@@ -42,8 +26,7 @@ export const StepTwo = ({ formCadastro, setFormCadastro }: StepTwoProps) => {
           variant="outline"
           inputName="apelido"
           inputType="text"
-          value={formCadastro.apelido}
-          onChange={handleChange}
+          {...register("apelido")}
           labelText="Apelido"
           placeholder="Apelido"
           borderWidth="2px"
@@ -54,9 +37,8 @@ export const StepTwo = ({ formCadastro, setFormCadastro }: StepTwoProps) => {
           variant="outline"
           inputName="celular1"
           inputType="text"
-          maxLength={11}
-          value={formCadastro.celular1}
-          onChange={handleChange}
+          mask="99999999999"
+          {...register("celular1")}
           labelText="Celular 1"
           placeholder="(xx) xxxxx-xxxx"
           borderWidth="2px"
@@ -64,10 +46,9 @@ export const StepTwo = ({ formCadastro, setFormCadastro }: StepTwoProps) => {
         <InputGroup
           variant="outline"
           inputName="celular2"
-          maxLength={11}
+          mask="99999999999"
           inputType="text"
-          value={formCadastro.celular2}
-          onChange={handleChange}
+          {...register("celular2")}
           labelText="Celular 2"
           placeholder="(xx) xxxxx-xxxx"
           borderWidth="2px"
@@ -78,8 +59,7 @@ export const StepTwo = ({ formCadastro, setFormCadastro }: StepTwoProps) => {
           variant="outline"
           inputName="dataNascimento"
           inputType="date"
-          value={formCadastro.dataNascimento}
-          onChange={handleChange}
+          {...register("dataNascimento")}
           labelText="Data de Nascimento"
           borderWidth="2px"
         />
@@ -87,10 +67,9 @@ export const StepTwo = ({ formCadastro, setFormCadastro }: StepTwoProps) => {
           variant="outline"
           inputName="cep"
           inputType="text"
+          mask="99999999"
           labelText="CEP"
-          maxLength={8}
-          value={formCadastro.cep}
-          onChange={handleChange}
+          {...register("cep")}
           placeholder="xxxxx-xxx"
           borderWidth="2px"
         />
@@ -101,27 +80,31 @@ export const StepTwo = ({ formCadastro, setFormCadastro }: StepTwoProps) => {
           inputName="email"
           inputType="email"
           labelText="E-mail"
-          value={formCadastro.email}
-          onChange={handleChange}
+          {...register("email")}
           placeholder="exemplo@exemplo.com"
           borderWidth="2px"
         />
+        <p style={{ fontSize: "0.75rem", color: "red" }}>
+          {errors.email?.message}
+        </p>
       </Flex>
-      <Flex w="100%" gap="10px">
+      <Flex w="100%" flexDir="column">
         <InputGroup
           variant="outline"
           inputName="senha"
           inputType="password"
           maxLength={8}
-          value={formCadastro.senha}
-          onChange={handleChange}
+          {...register("senha")}
           labelText="Senha"
           placeholder="Máximo 8 caractéres ou números"
           borderWidth="2px"
         />
+        <p style={{ fontSize: "0.75rem", color: "red" }}>
+          {errors.senha?.message}
+        </p>
       </Flex>
       <Flex mt="8" alignItems="center" gap="20px">
-        <Switch id="email-alerts" name="newsletter" onChange={handleChange} />
+        <Switch id="email-alerts" {...register("newsletter")} />
         <Text fontSize="0.9rem">Deseja receber promoções no E-mail?</Text>
       </Flex>
       <Flex my="3" alignItems="center" gap="20px">
@@ -135,7 +118,12 @@ export const StepTwo = ({ formCadastro, setFormCadastro }: StepTwoProps) => {
         mt="10"
         mb="5"
       >
-        <Button type="submit" w="250px" colorScheme="green">
+        <Button
+          type="submit"
+          w="250px"
+          colorScheme="green"
+          isLoading={isSubmitting}
+        >
           Criar conta
         </Button>
       </Flex>

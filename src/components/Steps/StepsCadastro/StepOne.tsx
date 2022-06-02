@@ -1,28 +1,16 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Flex } from "@chakra-ui/react";
-import { cnpjMask, cpfMask } from "../../../utils/mask";
+import { useFormContext } from "react-hook-form";
 import { InputGroup } from "../../Input/InputGroup";
-import { FormCadastroProps } from ".";
+import { cnpjMask, cpfMask } from "../../../utils/mask";
 
 type StepOneProps = {
   cpfOrCnpj: string;
   setCpfOrCnpj: Dispatch<SetStateAction<string>>;
-  formCadastro: FormCadastroProps;
-  setFormCadastro: Dispatch<SetStateAction<FormCadastroProps>>;
 };
 
-export const StepOne = ({
-  cpfOrCnpj,
-  setCpfOrCnpj,
-  formCadastro,
-  setFormCadastro,
-}: StepOneProps) => {
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFormCadastro({
-      ...formCadastro,
-      [event.target.name]: event.target.value,
-    });
-  };
+export const StepOne = ({ cpfOrCnpj, setCpfOrCnpj }: StepOneProps) => {
+  const { register } = useFormContext();
 
   return (
     <Flex w="100%" flexDir="column" alignItems="center" my="10">
@@ -46,13 +34,12 @@ export const StepOne = ({
           />
           <InputGroup
             variant="outline"
+            mask="999999999"
             inputName="rg"
             inputType="text"
             labelText="RG"
-            maxLength={9}
             placeholder="00.000.000-0"
-            value={formCadastro.rg}
-            onChange={handleChange}
+            {...register("rg")}
             borderWidth="2px"
           />
         </Flex>
@@ -77,11 +64,11 @@ export const StepOne = ({
             />
             <InputGroup
               variant="outline"
+              mask="999999999999"
               inputName="inscricaoEstadual"
               inputType="text"
               labelText="Inscrição Estadual"
-              value={formCadastro.inscricaoEstadual}
-              onChange={handleChange}
+              {...register("inscricaoEstadual")}
               placeholder="000.000.000.000"
               borderWidth="2px"
             />
@@ -98,8 +85,7 @@ export const StepOne = ({
               inputName="nomeFantasia"
               inputType="text"
               labelText="Nome Fantasia"
-              value={formCadastro.nomeFantasia}
-              onChange={handleChange}
+              {...register("nomeFantasia")}
               placeholder="Nome fantasia da empresa"
               borderWidth="2px"
             />
@@ -108,8 +94,7 @@ export const StepOne = ({
               inputName="razaoSocial"
               inputType="text"
               labelText="Razão Social"
-              value={formCadastro.razaoSocial}
-              onChange={handleChange}
+              {...register("razaoSocial")}
               placeholder="Razão social da empresa"
               borderWidth="2px"
             />

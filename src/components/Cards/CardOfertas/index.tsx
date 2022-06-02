@@ -1,5 +1,6 @@
 import { Box, Flex, VStack, Text, Image } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { ProdutosProps } from "../../../types/Produto";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { Button } from "../../Button";
@@ -95,15 +96,17 @@ export const CardOfertas = ({ produtos }: CardOfertasProps) => {
                   >
                     {formatCurrency(produto.preco)}
                   </Text>
-                  <Button
-                    fontSize="0.9rem"
-                    w="100%"
-                    gap="10px"
-                    colorScheme="orange"
-                  >
-                    <FaShoppingCart fontSize={18} color="white" />
-                    Comprar
-                  </Button>
+                  <Link to={`/produto/${produto.id}`} style={{ width: "100%" }}>
+                    <Button
+                      fontSize="0.9rem"
+                      w="100%"
+                      gap="10px"
+                      colorScheme="orange"
+                    >
+                      <FaShoppingCart fontSize={18} color="white" />
+                      Comprar
+                    </Button>
+                  </Link>
                 </Box>
               </VStack>
             </Flex>

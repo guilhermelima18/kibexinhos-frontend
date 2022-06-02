@@ -5,21 +5,23 @@ import {
   Input as ChakraInput,
   InputProps as ChakraInputProps,
 } from "@chakra-ui/react";
+import InputMask from "react-input-mask";
 
 interface InputProps extends ChakraInputProps {
   inputName: string;
   inputType: string;
   labelText?: string;
   children?: ReactNode;
+  mask?: string;
 }
 
 const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
-  { inputName, inputType, labelText, children, ...rest },
+  { inputName, inputType, labelText, children, mask, ...rest },
   ref
 ) => {
   return (
     <Box>
-      <FormLabel>{labelText}</FormLabel>
+      <FormLabel htmlFor={inputName}>{labelText}</FormLabel>
       <Box
         display="flex"
         alignItems="center"
@@ -37,14 +39,30 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
         >
           {children}
         </span>
-        <ChakraInput
-          type={inputType}
-          name={inputName}
-          fontSize="0.9rem"
-          borderColor="gray.300"
-          ref={ref}
-          {...rest}
-        />
+        {mask ? (
+          <ChakraInput
+            as={InputMask}
+            mask={mask}
+            maskChar={null}
+            type={inputType}
+            id={inputName}
+            name={inputName}
+            fontSize="0.9rem"
+            borderColor="gray.300"
+            ref={ref}
+            {...rest}
+          />
+        ) : (
+          <ChakraInput
+            type={inputType}
+            id={inputName}
+            name={inputName}
+            fontSize="0.9rem"
+            borderColor="gray.300"
+            ref={ref}
+            {...rest}
+          />
+        )}
       </Box>
     </Box>
   );

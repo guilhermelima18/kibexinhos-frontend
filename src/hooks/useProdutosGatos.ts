@@ -4,16 +4,17 @@ import { api } from "../services/api";
 import { ProdutosProps } from "../types/Produto";
 import { formatCurrency } from "../utils/formatCurrency";
 
-export function useProdutosCachorros() {
-  const [produtosCachorrosMaisVendidos, setProdutosCachorrosMaisVendidos] =
-    useState<ProdutosProps[]>([]);
+export function useProdutosGatos() {
+  const [produtosGatosMaisVendidos, setProdutosGatosMaisVendidos] = useState<
+    ProdutosProps[]
+  >([]);
   const [loading, setLoading] = useState(false);
 
-  const getProdutosCachorrosMaisVendidos = useCallback(async () => {
+  const getProdutosGatosMaisVendidos = useCallback(async () => {
     try {
       setLoading(true);
 
-      const response = await api.get("/produto/maisvendidos/1");
+      const response = await api.get("/produto/maisvendidos/2");
 
       if (response) {
         if (response.status === 200) {
@@ -22,12 +23,12 @@ export function useProdutosCachorros() {
             preco: formatCurrency(produto.preco),
           }));
 
-          setProdutosCachorrosMaisVendidos(data);
+          setProdutosGatosMaisVendidos(data);
         }
       }
     } catch (error) {
       toast.error(
-        "Não foi possível buscar os produtos mais vendidos para cachorros."
+        "Não foi possível buscar os produtos mais vendidos para gatos."
       );
     } finally {
       setLoading(false);
@@ -35,8 +36,8 @@ export function useProdutosCachorros() {
   }, []);
 
   return {
-    getProdutosCachorrosMaisVendidos,
-    produtosCachorrosMaisVendidos,
+    getProdutosGatosMaisVendidos,
+    produtosGatosMaisVendidos,
     loading,
   };
 }

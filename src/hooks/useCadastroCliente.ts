@@ -18,16 +18,16 @@ export function useCadastroCliente() {
       });
 
       if (response) {
-        Swal.fire({
+        const resp = await Swal.fire({
           icon: "success",
           title: "Cadastro efetuado com sucesso.",
           confirmButtonColor: "#DD6B20",
           confirmButtonText: "OK",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/");
-          }
         });
+
+        if (resp.isConfirmed) {
+          navigate("/login");
+        }
       }
     } catch (error) {
       toast.error("Não foi possível criar uma conta.");

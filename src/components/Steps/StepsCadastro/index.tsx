@@ -1,11 +1,14 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { Flex } from "@chakra-ui/react";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useCadastroCliente } from "../../../hooks/useCadastroCliente";
 import { Button } from "../../Button";
 import { StepOne } from "./StepOne";
 import { StepTwo } from "./StepTwo";
 import { Form } from "../../Form";
-import { useCadastroCliente } from "../../../hooks/useCadastroCliente";
 import { ClienteProps } from "../../../types/Cliente";
 
 const steps = 2;
@@ -26,64 +29,61 @@ export type FormCadastroProps = {
   newsletter: boolean;
 };
 
+const validarFormularioCadastro = yup.object().shape({
+  email: yup
+    .string()
+    .email("E-mail inválido")
+    .required("E-mail é um campo obrigatório"),
+  senha: yup
+    .string()
+    .length(8, "No mínimo 8 letras ou números")
+    .required("Senha obrigatória"),
+});
+
 export const StepsForm = () => {
   const { cadastrarCliente } = useCadastroCliente();
+  const methods = useForm<FormCadastroProps>({
+    resolver: yupResolver(validarFormularioCadastro),
+  });
   const { nextStep, prevStep, activeStep } = useSteps({
     initialStep: 0,
   });
   const [cpfOrCnpj, setCpfOrCnpj] = useState("");
-  const defaultValues = {
-    inscricaoEstadual: "",
-    nomeFantasia: "",
-    razaoSocial: "",
-    rg: "",
-    email: "",
-    senha: "",
-    nome: "",
-    apelido: "",
-    celular1: "",
-    celular2: "",
-    dataNascimento: "",
-    cep: "",
-    newsletter: false,
-  };
-  const [formCadastro, setFormCadastro] =
-    useState<FormCadastroProps>(defaultValues);
 
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault();
-
+  const handleCadastroSubmit: SubmitHandler<FormCadastroProps> = async (
+    data: FormCadastroProps
+  ) => {
     let params = {
-      nomeCliente: formCadastro.nome,
-      dataNascimento: formCadastro.dataNascimento,
-      apelido: formCadastro.apelido,
+      nomeCliente: data.nome,
+      dataNascimento: data.dataNascimento,
+      apelido: data.apelido,
       cpfcnpj: cpfOrCnpj,
-      email: formCadastro.email,
-      senha: formCadastro.senha,
-      cep: formCadastro.cep,
-      celular1: formCadastro.celular1,
-      celular2: formCadastro.celular2,
+      email: data.email,
+      senha: data.senha,
+      cep: data.cep,
+      celular1: data.celular1,
+      celular2: data.celular2,
       ativo: true,
-      newsletter: formCadastro.newsletter,
+      newsletter: data.newsletter,
     } as ClienteProps;
 
-    if (formCadastro.rg !== "") {
-      params.rgie = `${formCadastro.rg}`;
+    if (data.rg !== "" && data.rg !== undefined) {
+      params.rgie = `${data.rg}`;
     }
 
-    if (formCadastro.inscricaoEstadual !== "") {
-      params.rgie = `${formCadastro.inscricaoEstadual}`;
+    if (data.inscricaoEstadual !== "" && data.inscricaoEstadual !== undefined) {
+      params.rgie = `${data.inscricaoEstadual}`;
     }
 
-    if (formCadastro.razaoSocial !== "") {
-      params.razaoSocial = `${formCadastro.inscricaoEstadual}`;
+    if (data.razaoSocial !== "" && data.razaoSocial !== undefined) {
+      params.razaoSocial = `${data.razaoSocial}`;
     }
 
-    if (formCadastro.nomeFantasia !== "") {
-      params.nomeFantasia = `${formCadastro.nomeFantasia}`;
+    if (data.nomeFantasia !== "" && data.nomeFantasia !== undefined) {
+      params.nomeFantasia = `${data.nomeFantasia}`;
     }
 
-    cadastrarCliente(params);
+    await cadastrarCliente(params);
   };
 
   return (
@@ -95,24 +95,18 @@ export const StepsForm = () => {
       alignItems="center"
       py="10"
     >
-      <Form onSubmit={handleSubmit}>
-        <Steps activeStep={activeStep} responsive colorScheme="orange">
-          <Step label="CPF ou CNPJ" key={0}>
-            <StepOne
-              cpfOrCnpj={cpfOrCnpj}
-              setCpfOrCnpj={setCpfOrCnpj}
-              formCadastro={formCadastro}
-              setFormCadastro={setFormCadastro}
-            />
-          </Step>
-          <Step label="Dados do Cliente" key={1}>
-            <StepTwo
-              formCadastro={formCadastro}
-              setFormCadastro={setFormCadastro}
-            />
-          </Step>
-        </Steps>
-      </Form>
+      <FormProvider {...methods}>
+        <Form onSubmit={methods.handleSubmit(handleCadastroSubmit)}>
+          <Steps activeStep={activeStep} responsive colorScheme="orange">
+            <Step label="CPF ou CNPJ" key={0}>
+              <StepOne cpfOrCnpj={cpfOrCnpj} setCpfOrCnpj={setCpfOrCnpj} />
+            </Step>
+            <Step label="Dados do Cliente" key={1}>
+              <StepTwo />
+            </Step>
+          </Steps>
+        </Form>
+      </FormProvider>
       <Flex width="100%" flexDir="column" justifyContent="center">
         {activeStep < 1 && (
           <Flex w="100%" justifyContent="flex-end">

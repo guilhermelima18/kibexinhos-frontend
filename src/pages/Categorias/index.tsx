@@ -20,35 +20,35 @@ export default function Categorias() {
             urlImage={dogsImg}
             title="Cachorros"
             subtitle="O cão, no Brasil também chamado de cachorro, é um mamífero carnívoro da família dos canídeos, subespécie do lobo, e talvez o mais antigo animal domesticado pelo ser humano."
-            urlLink="/categorias/dogs"
+            urlLink="/produtos/1"
           />
 
           <CardCategorias
             urlImage={catsImg}
             title="Gatos"
             subtitle="O gato, também conhecido como gato caseiro, gato urbano ou gato doméstico, é um mamífero carnívoro da família dos felídeos, muito popular como animal de estimação."
-            urlLink="/categorias/cats"
+            urlLink="/produtos/2"
           />
 
           <CardCategorias
             urlImage={fishsImg}
             title="Peixes"
             subtitle="Oferecer aos peixes um ecossistema semelhante ao encontrado em seu habitat é sem dúvida uma necessidade para a qualidade de vida desses seres."
-            urlLink="/categorias/fishs"
+            urlLink="/produtos/3"
           />
 
           <CardCategorias
             urlImage={hamstersImg}
             title="Hamsters"
             subtitle="Hamster [rémster] ou criceto é uma designação comum a diversos pequenos mamíferos roedores. Cada vez mais pessoas optam por ter um hamster como animal de estimação."
-            urlLink="/categorias/hamsters"
+            urlLink="/produtos/4"
           />
 
           <CardCategorias
             urlImage={birdsImg}
             title="Aves"
             subtitle="Pássaros são aves bastante singulares e especiais, principalmente por manterem os dias dos tutores mais felizes com suas diferentes cantorias, cores e diversidades."
-            urlLink="/categorias/birds"
+            urlLink="/produtos/5"
           />
         </Flex>
       </Layout>

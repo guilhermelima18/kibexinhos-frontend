@@ -12,22 +12,23 @@ import {
   useDisclosure,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { useMarcas } from "../../../hooks/useMarcas";
-import { useProdutosCachorros } from "../../../hooks/useProdutosCachorros";
+import { useMarcas } from "../../hooks/useMarcas";
 import { TiArrowUnsorted } from "react-icons/ti";
-import { AsideSearch } from "../../../components/AsideSearch";
-import { Layout } from "../../../components/Layout";
-import { MainLayout } from "../../../components/MainLayout";
-import { Pagination } from "../../../components/Pagination";
-import { Select } from "../../../components/Select";
-import { AsideSearchMobile } from "../../../components/AsideSearch/AsideSearchMobile";
-import { CardProdutosCachorros } from "../../../components/Cards/CardProdutosCachorros";
+import { AsideSearch } from "../../components/AsideSearch";
+import { Layout } from "../../components/Layout";
+import { MainLayout } from "../../components/MainLayout";
+import { Pagination } from "../../components/Pagination";
+import { Select } from "../../components/Select";
+import { AsideSearchMobile } from "../../components/AsideSearch/AsideSearchMobile";
+import { CardProdutosCachorros } from "../../components/Cards/CardProdutosCachorros";
+import { useParams } from "react-router-dom";
+import { useProdutos } from "../../hooks/useProdutos";
 
-export default function Cachorros() {
+export default function Produtos() {
+  const { id } = useParams();
   const [isLessThan860] = useMediaQuery("(max-width: 860px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { getProdutosCachorros, produtosCachorros, loading } =
-    useProdutosCachorros();
+  const { getProdutos, produtos, loading } = useProdutos();
   const { getMarcas, marcas } = useMarcas();
   const [page, setPage] = useState(1);
   const [tipoProduto, setTipoProduto] = useState<number[]>([]);
@@ -35,15 +36,18 @@ export default function Cachorros() {
   const [porte, setPorte] = useState<string[]>([]);
 
   useEffect(() => {
-    const params = {
-      tipo: tipoProduto,
-      marcas: marcasProdutos,
-      porte: porte,
-    };
-    getProdutosCachorros(params, page);
+    if (id) {
+      const params = {
+        tipo: tipoProduto,
+        marcas: marcasProdutos,
+        porte: porte,
+      };
+
+      getProdutos(params, page, Number(id));
+    }
 
     window.scrollTo(0, 0);
-  }, [page, tipoProduto, marcasProdutos, porte]);
+  }, [page, tipoProduto, marcasProdutos, porte, id]);
 
   useEffect(() => {
     getMarcas();
@@ -111,7 +115,7 @@ export default function Cachorros() {
                 <SkeletonCircle size="10" />
                 <SkeletonText mt="4" noOfLines={4} spacing="4" />
               </Box>
-            ) : produtosCachorros && produtosCachorros.length === 0 ? (
+            ) : produtos && produtos.length === 0 ? (
               <Box padding="6" boxShadow="lg" bg="white" my="10" py="10">
                 <Text>Não há produtos.</Text>
               </Box>
@@ -122,8 +126,8 @@ export default function Cachorros() {
                 justifyItems="center"
                 my="10"
               >
-                {produtosCachorros &&
-                  produtosCachorros.map((produto) => (
+                {produtos &&
+                  produtos.map((produto) => (
                     <CardProdutosCachorros produto={produto} />
                   ))}
               </SimpleGrid>
