@@ -54,7 +54,7 @@ export const MenuCategorias = () => {
             <span>Gatos</span>
           </MenuItem>
         </Link>
-        <Link to="produtos/5">
+        <Link to="/produtos/5">
           <MenuItem minH="40px">
             <Image
               boxSize="2rem"

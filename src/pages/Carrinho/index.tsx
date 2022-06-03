@@ -29,8 +29,6 @@ export default function Carrinho() {
   const { getProdutosCarrinho, itensCarrinho, loading } = useCarrinho();
   const [reloadItens, setReloadItens] = useState(false);
 
-  console.log(reloadItens);
-
   useEffect(() => {
     getProdutosCarrinho();
   }, [reloadItens]);
@@ -140,6 +138,8 @@ export default function Carrinho() {
                     <SkeletonCircle size="10" />
                     <SkeletonText mt="4" noOfLines={4} spacing="4" />
                   </Box>
+                ) : itensCarrinho.length === 0 ? (
+                  <Text>Não há itens no carrinho.</Text>
                 ) : (
                   itensCarrinho &&
                   itensCarrinho.map((item) => (

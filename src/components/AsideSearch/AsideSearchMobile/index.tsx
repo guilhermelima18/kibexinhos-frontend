@@ -34,7 +34,7 @@ export const AsideSearchMobile = ({
 }: AsideSearchMobileProps) => {
   useEffect(() => {
     onClose();
-  }, [marcasProdutos]);
+  }, [marcasProdutos, tipoProduto, porte]);
 
   return (
     <Drawer

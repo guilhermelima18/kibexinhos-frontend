@@ -9,8 +9,18 @@ type ParamsProps = {
   porte: string[];
 };
 
+type ListagemProdutosProps = {
+  produtos: ProdutosProps[];
+  meta: {
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+  };
+};
+
 export function useProdutos() {
-  const [produtos, setProdutos] = useState<ProdutosProps[]>([]);
+  const [produtos, setProdutos] = useState<ListagemProdutosProps>();
   const [loading, setLoading] = useState(false);
 
   const getProdutos = useCallback(
@@ -36,7 +46,7 @@ export function useProdutos() {
 
         if (response) {
           if (response.status === 200) {
-            setProdutos(response.data.produtos);
+            setProdutos(response.data);
           }
         }
       } catch (error) {

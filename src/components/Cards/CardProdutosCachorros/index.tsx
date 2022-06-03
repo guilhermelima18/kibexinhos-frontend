@@ -13,11 +13,11 @@ export function CardProdutosCachorros({ produto }: CardProdutosCachorrosProps) {
   return (
     <Flex
       bg="white"
-      maxW="300px"
+      w="100%"
       h="400px"
       flexDir="column"
       justifyContent="space-between"
-      p="1"
+      p="3"
       borderRadius="10px"
       _hover={{
         boxShadow: "0 0 10px rgba(200, 200, 200, 0.8)",
@@ -34,7 +34,7 @@ export function CardProdutosCachorros({ produto }: CardProdutosCachorrosProps) {
       >
         <Image
           w="100%"
-          maxW="220px"
+          maxW="200px"
           src={produto.imageProduto[0].imagem}
           alt={produto.nomeProduto}
         />

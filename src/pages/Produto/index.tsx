@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   Flex,
@@ -35,8 +35,10 @@ import { ModalParcelas } from "../../components/Modal/ModalParcelas";
 import { CardProdutosRelacionados } from "../../components/Cards/CardProdutosRelacionados";
 import { formatCurrency } from "../../utils/formatCurrency";
 import "react-medium-image-zoom/dist/styles.css";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Produto() {
+  const { token } = useContext(AuthContext);
   const { adicionarProdutosCarrinho } = useCarrinho();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { id } = useParams();
@@ -200,6 +202,7 @@ export default function Produto() {
                     alignItems="center"
                     gap="10px"
                     onClick={() => handleAdicionarCarrinho(produto.id)}
+                    disabled={!token.token}
                   >
                     <FaShoppingCart color="white" size={20} />
                     Adicionar ao carrinho

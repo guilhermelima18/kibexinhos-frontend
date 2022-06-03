@@ -31,9 +31,11 @@ export default function Login() {
     formState: { errors, isSubmitting },
   } = useForm<LoginProps>({ resolver: yupResolver(validationFormLogin) });
 
-  const handleLoginSubmit: SubmitHandler<LoginProps> = (data: LoginProps) => {
+  const handleLoginSubmit: SubmitHandler<LoginProps> = async (
+    data: LoginProps
+  ) => {
     if (data.email !== "" && data.password !== "") {
-      signIn(data);
+      await signIn(data);
     }
   };
 

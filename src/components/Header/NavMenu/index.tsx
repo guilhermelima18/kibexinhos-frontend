@@ -1,11 +1,22 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Link } from "react-router-dom";
-import { HStack, Button, Text, Box } from "@chakra-ui/react";
+import { HStack, Text, Box } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
 import { MenuCategorias } from "../MenuCategorias";
 import { useCarrinho } from "../../../hooks/useCarrinho";
+import { useContext, useEffect } from "react";
+import { AuthContext, signOut } from "../../../contexts/AuthContext";
+import { Button } from "../../Button";
 
 export function NavMenu() {
-  const { itensCarrinho } = useCarrinho();
+  const { getProdutosCarrinho, itensCarrinho } = useCarrinho();
+  const { token } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (token.token) {
+      getProdutosCarrinho();
+    }
+  }, [token]);
 
   return (
     <HStack spacing={30}>
@@ -30,32 +41,34 @@ export function NavMenu() {
         </Text>
       </Link>
       <MenuCategorias />
-      <Box display="flex" alignItems="center">
-        <Link to="/login">
-          <Text
-            fontSize="0.9rem"
-            color="white"
-            fontWeight="bold"
-            _hover={{ textDecoration: "underline", cursor: "pointer" }}
-          >
-            Entrar
+      {!token.token && (
+        <Box display="flex" alignItems="center">
+          <Link to="/login">
+            <Text
+              fontSize="0.9rem"
+              color="white"
+              fontWeight="bold"
+              _hover={{ textDecoration: "underline", cursor: "pointer" }}
+            >
+              Entrar
+            </Text>
+          </Link>
+          <Text w="5px" color="white" mx="1">
+            |
           </Text>
-        </Link>
-        <Text w="5px" color="white" mx="1">
-          |
-        </Text>
-        <Link to="/criar-conta">
-          <Text
-            fontSize="0.9rem"
-            color="white"
-            fontWeight="bold"
-            _hover={{ textDecoration: "underline", cursor: "pointer" }}
-          >
-            Criar Conta
-          </Text>
-        </Link>
-      </Box>
-      {itensCarrinho.length > 0 && (
+          <Link to="/criar-conta">
+            <Text
+              fontSize="0.9rem"
+              color="white"
+              fontWeight="bold"
+              _hover={{ textDecoration: "underline", cursor: "pointer" }}
+            >
+              Criar Conta
+            </Text>
+          </Link>
+        </Box>
+      )}
+      {token.token && (
         <Button
           bg="transparent"
           position="relative"
@@ -77,6 +90,11 @@ export function NavMenu() {
           <Link to="/carrinho">
             <FaShoppingCart fontSize={24} color="white" />
           </Link>
+        </Button>
+      )}
+      {token.token && (
+        <Button colorScheme="orange" onClick={() => signOut()}>
+          Sair
         </Button>
       )}
     </HStack>

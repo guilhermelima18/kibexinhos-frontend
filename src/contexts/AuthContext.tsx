@@ -47,6 +47,7 @@ export const AuthContext = createContext({} as AuthContextProps);
 export const signOut = () => {
   localStorage.removeItem("kibexinhos.token");
   localStorage.removeItem("kibexinhos.refreshToken");
+  localStorage.removeItem("kibexinhos.user");
 
   window.location.href = "/";
 };

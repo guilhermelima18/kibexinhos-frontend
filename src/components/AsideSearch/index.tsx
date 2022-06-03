@@ -59,6 +59,7 @@ export const AsideSearch = ({
   return (
     <Flex w={size} flexDir="column" gap="20px">
       <Flex
+        bg="white"
         w="100%"
         flexDir="column"
         p="5"
@@ -126,6 +127,7 @@ export const AsideSearch = ({
         </Box>
       </Flex>
       <Flex
+        bg="white"
         w="100%"
         flexDir="column"
         p="5"
@@ -152,6 +154,7 @@ export const AsideSearch = ({
           ))}
       </Flex>
       <Flex
+        bg="white"
         w="100%"
         flexDir="column"
         p="5"

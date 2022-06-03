@@ -66,9 +66,9 @@ export function useCarrinho() {
           toast.success("Produto adicionado ao carrinho.");
         }
       }
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      const { data } = error.response;
+      toast.info(data.message);
     }
   }, []);
 

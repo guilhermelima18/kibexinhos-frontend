@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -50,8 +50,43 @@ export default function Produtos() {
   }, [page, tipoProduto, marcasProdutos, porte, id]);
 
   useEffect(() => {
+    setPage(1);
+  }, [id]);
+
+  useEffect(() => {
     getMarcas();
   }, []);
+
+  const verificaIdAnimal = useCallback(() => {
+    let tipoAnimal;
+    switch (id) {
+      case "1": {
+        tipoAnimal = "Cachorros";
+        break;
+      }
+      case "2": {
+        tipoAnimal = "Gatos";
+        break;
+      }
+      case "3": {
+        tipoAnimal = "Peixes";
+        break;
+      }
+      case "4": {
+        tipoAnimal = "Roedores";
+        break;
+      }
+      case "5": {
+        tipoAnimal = "Aves";
+        break;
+      }
+      default: {
+        tipoAnimal = "";
+      }
+    }
+
+    return tipoAnimal;
+  }, [id]);
 
   return (
     <MainLayout>
@@ -71,11 +106,22 @@ export default function Produtos() {
           )}
           <Flex w="100%" flexDir="column" px="8">
             <Heading fontWeight="semibold" fontSize="1.5rem">
-              Departamento de Cachorros
+              Departamento de {verificaIdAnimal()}
             </Heading>
-            <HStack w="100%" alignItems="center" justifyContent="space-between">
+            <HStack
+              bg="white"
+              w="100%"
+              alignItems="center"
+              justifyContent="space-between"
+              border="1px solid"
+              borderColor="gray.300"
+              p="3"
+              mt="3"
+              borderRadius="md"
+            >
               <Text fontSize="0.9rem">
-                Resultados encontrados: <strong>100</strong> produtos
+                Resultados encontrados:{" "}
+                <strong>{produtos && produtos.meta.total}</strong> produtos
               </Text>
               {!isLessThan860 && (
                 <Flex alignItems="center" gap="5px">
@@ -115,7 +161,7 @@ export default function Produtos() {
                 <SkeletonCircle size="10" />
                 <SkeletonText mt="4" noOfLines={4} spacing="4" />
               </Box>
-            ) : produtos && produtos.length === 0 ? (
+            ) : produtos && produtos.produtos.length === 0 ? (
               <Box padding="6" boxShadow="lg" bg="white" my="10" py="10">
                 <Text>Não há produtos.</Text>
               </Box>
@@ -127,15 +173,16 @@ export default function Produtos() {
                 my="10"
               >
                 {produtos &&
-                  produtos.map((produto) => (
-                    <CardProdutosCachorros produto={produto} />
+                  produtos.produtos.map((produto) => (
+                    <CardProdutosCachorros key={produto.id} produto={produto} />
                   ))}
               </SimpleGrid>
             )}
             <Pagination
-              totalCountOfRegisters={100}
-              currentPage={1}
-              lastPage={10}
+              totalCountOfRegisters={produtos! && produtos?.meta.total}
+              currentPage={produtos! && produtos?.meta.current_page}
+              registerPerPage={produtos! && produtos?.meta.per_page}
+              lastPage={produtos! && produtos?.meta.last_page}
               onPageChange={setPage}
             />
           </Flex>
