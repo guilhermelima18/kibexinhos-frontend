@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 import {
   Flex,
   SimpleGrid,
@@ -25,17 +26,21 @@ import {
   SkeletonText,
 } from "@chakra-ui/react";
 import { useProduto } from "../../hooks/useProduto";
+import { useCarrinho } from "../../hooks/useCarrinho";
+import { AuthContext } from "../../contexts/AuthContext";
 import { FaShoppingCart, FaStar } from "react-icons/fa";
 import Zoom from "react-medium-image-zoom";
-import { useCarrinho } from "../../hooks/useCarrinho";
+import { toast } from "react-toastify";
 import { Layout } from "../../components/Layout";
 import { MainLayout } from "../../components/MainLayout";
 import { Button } from "../../components/Button";
 import { ModalParcelas } from "../../components/Modal/ModalParcelas";
 import { CardProdutosRelacionados } from "../../components/Cards/CardProdutosRelacionados";
+import { ProdutosProps } from "../../types/Produto";
+import { ModalCotacaoFrete } from "../../components/Modal/ModalCotacaoFrete";
+import { CotacaoFreteProps } from "../../types/Frete";
 import { formatCurrency } from "../../utils/formatCurrency";
 import "react-medium-image-zoom/dist/styles.css";
-import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Produto() {
   const { token } = useContext(AuthContext);
@@ -53,6 +58,9 @@ export default function Produto() {
   const [isLessThan860] = useMediaQuery("(max-width: 860px)");
   const [image, setImage] = useState("");
   const [precoParcelas, setPrecoParcelas] = useState<number>(0);
+  const [cepCotacao, setCepCotacao] = useState<string>("");
+  const [modalCotacao, setModalCotacao] = useState(false);
+  const [cotacao, setCotacao] = useState<CotacaoFreteProps[]>([]);
 
   useEffect(() => {
     if (id) {
@@ -108,6 +116,54 @@ export default function Produto() {
       await adicionarProdutosCarrinho(produtoId);
     }
   }
+
+  const cotacaoFrete = useCallback(
+    async (produto: ProdutosProps, cep: string) => {
+      const params = {
+        from: {
+          postal_code: "17201320",
+        },
+        to: {
+          postal_code: cep,
+        },
+        products: [
+          {
+            id: produto.id,
+            width: produto.largura,
+            height: produto.comprimento,
+            weight: produto.peso,
+            insurance_value: produto.preco,
+            quantity: 1,
+          },
+        ],
+      };
+
+      try {
+        const response = await axios.post(
+          "https://www.melhorenvio.com.br/api/v2/me/shipment/calculate",
+          {
+            ...params,
+          },
+          {
+            headers: {
+              Accept: "application/json",
+              "User-Agent": "kibexinhos kibexinhos-etec-tcc@hotmail.com",
+              Authorization: `Bearer ${process.env.REACT_APP_MELHOR_ENVIO_TOKEN}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          setCotacao(response.data);
+          setModalCotacao(true);
+          setCepCotacao("");
+        }
+      } catch (error) {
+        toast.warning("Não foi possível realizar a cotação do frete.");
+      }
+    },
+    []
+  );
 
   if (produto === undefined || produto === null) return null;
 
@@ -244,17 +300,18 @@ export default function Produto() {
                   <strong>Consultar frete e prazo de entrega</strong>
                   <Box display="flex" alignItems="center" gap="5px">
                     <Input
-                      type="number"
-                      variant="flushed"
+                      type="text"
                       _focus={{
                         borderBottom: "1px solid",
                         borderColor: "orange.500",
                       }}
+                      value={cepCotacao}
+                      onChange={(e) => setCepCotacao(e.target.value)}
                     />
                     <Button
                       colorScheme="orange"
                       variant="outline"
-                      /* onClick={getFrete} */
+                      onClick={() => cotacaoFrete(produto, cepCotacao)}
                     >
                       OK
                     </Button>
@@ -351,6 +408,9 @@ export default function Produto() {
       </MainLayout>
       {isOpen && (
         <ModalParcelas isOpen={isOpen} onClose={onClose} parcelas={parcelas} />
+      )}
+      {modalCotacao && (
+        <ModalCotacaoFrete onClose={setModalCotacao} cotacao={cotacao} />
       )}
     </>
   );

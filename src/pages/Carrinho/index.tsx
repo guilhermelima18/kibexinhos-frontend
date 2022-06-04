@@ -1,33 +1,53 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import {
   Box,
   Flex,
   Heading,
+  Input,
   Radio,
   RadioGroup,
   SkeletonCircle,
   SkeletonText,
+  Stack,
   Text,
   Textarea,
   useMediaQuery,
   VStack,
 } from "@chakra-ui/react";
 import { FaPeopleCarry, FaTruck } from "react-icons/fa";
-import { useCarrinho } from "../../hooks/useCarrinho";
+import { toast } from "react-toastify";
+import { CarrinhoProps, useCarrinho } from "../../hooks/useCarrinho";
 import { Button } from "../../components/Button";
 import { CarrinhoItem } from "../../components/CarrinhoItem";
 import { Layout } from "../../components/Layout";
 import { MainLayout } from "../../components/MainLayout";
 import { Select } from "../../components/Select";
 import { formatCurrency } from "../../utils/formatCurrency";
+import { CotacaoFreteProps } from "../../types/Frete";
+
+type EnderecoClienteProps = {
+  bairro: string;
+  cep: string;
+  complemento: string;
+  logradouro: string;
+  uf: string;
+};
 
 export default function Carrinho() {
   const [isLessThan940] = useMediaQuery("(max-width: 940px)");
   const [isLessThan500] = useMediaQuery("(max-width: 500px)");
   const { getProdutosCarrinho, itensCarrinho, loading } = useCarrinho();
   const [reloadItens, setReloadItens] = useState(false);
+  const [tipoEntrega, setTipoEntrega] = useState("1");
+  const [cepCotacao, setCepCotacao] = useState<string>("");
+  const [freteEscolhido, setFreteEscolhido] = useState<string>("");
+  const [cotacao, setCotacao] = useState<CotacaoFreteProps[]>([]);
+  const [enderecoCliente, setEnderecoCliente] =
+    useState<EnderecoClienteProps>();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getProdutosCarrinho();
@@ -42,6 +62,68 @@ export default function Carrinho() {
 
     return totalPedido;
   }, [itensCarrinho]);
+
+  const cotacaoFrete = useCallback(
+    async (produtos: CarrinhoProps[], cep: string) => {
+      const data = produtos.map((item) => ({
+        id: item.produtoId,
+        width: item.produto.largura,
+        height: item.produto.altura,
+        weight: item.produto.peso,
+        insurance_value: item.produto.preco,
+        quantity: item.quantidade,
+      }));
+
+      const params = {
+        from: {
+          postal_code: "17201320",
+        },
+        to: {
+          postal_code: cep,
+        },
+        products: [...data],
+      };
+
+      try {
+        setIsLoading(true);
+        const calcularFrete = axios.post(
+          "https://www.melhorenvio.com.br/api/v2/me/shipment/calculate",
+          {
+            ...params,
+          },
+          {
+            headers: {
+              Accept: "application/json",
+              "User-Agent": "kibexinhos kibexinhos-etec-tcc@hotmail.com",
+              Authorization: `Bearer ${process.env.REACT_APP_MELHOR_ENVIO_TOKEN}`,
+            },
+          }
+        );
+
+        const buscarEndereco = axios.get(
+          `https://viacep.com.br/ws/${cep}/json/`
+        );
+
+        const [data1, data2] = await Promise.all([
+          calcularFrete,
+          buscarEndereco,
+        ]);
+
+        if (data1.status === 200 || data2.status === 200) {
+          setCotacao(data1.data);
+          setEnderecoCliente(data2.data);
+          setCepCotacao("");
+        }
+      } catch (error) {
+        toast.warning("Não foi possível realizar a cotação do frete.");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [itensCarrinho]
+  );
+
+  console.log(cotacao);
 
   return (
     <MainLayout>
@@ -84,6 +166,8 @@ export default function Carrinho() {
                 flexDir={["column", "column", "row"]}
                 justifyContent="space-between"
                 gap="20px"
+                value={tipoEntrega}
+                onChange={setTipoEntrega}
               >
                 <Flex
                   w={["100%", "100%", "40%"]}
@@ -98,7 +182,12 @@ export default function Carrinho() {
                     <Radio value="1">
                       <Text fontSize="0.85rem">Retirada em Loja</Text>
                     </Radio>
-                    <Select fontSize="0.85rem" value={1} setValue={() => {}}>
+                    <Select
+                      fontSize="0.85rem"
+                      value={1}
+                      setValue={() => {}}
+                      isDisabled={tipoEntrega !== "1"}
+                    >
                       <option value="1">Jaú / SP</option>
                     </Select>
                   </VStack>
@@ -116,7 +205,12 @@ export default function Carrinho() {
                     <Radio value="2">
                       <Text fontSize="0.85rem">Enviar no meu endereço</Text>
                     </Radio>
-                    <Select fontSize="0.85rem" value={1} setValue={() => {}}>
+                    <Select
+                      fontSize="0.85rem"
+                      value={1}
+                      setValue={() => {}}
+                      isDisabled={tipoEntrega !== "2"}
+                    >
                       <option value="1">Transportadora</option>
                     </Select>
                   </VStack>
@@ -206,6 +300,114 @@ export default function Carrinho() {
               </Flex>
             </Flex>
           </Flex>
+
+          {tipoEntrega === "2" && (
+            <Flex w="100%" flexDir="column" mt="10">
+              <Text display="flex" alignItems="center" gap="5px">
+                <FaTruck fontSize={20} />
+                Frete
+              </Text>
+              <Box
+                w="100%"
+                maxW="350px"
+                display="flex"
+                alignItems="center"
+                gap="5px"
+                mt="3"
+                mb="8"
+              >
+                <Input
+                  type="text"
+                  _focus={{
+                    borderBottom: "1px solid",
+                    borderColor: "orange.500",
+                  }}
+                  value={cepCotacao}
+                  onChange={(e) => setCepCotacao(e.target.value)}
+                />
+                <Button
+                  colorScheme="orange"
+                  variant="outline"
+                  onClick={() => cotacaoFrete(itensCarrinho, cepCotacao)}
+                >
+                  OK
+                </Button>
+              </Box>
+              {isLoading ? (
+                <Box padding="6" boxShadow="lg" bg="white" my="10" py="10">
+                  <SkeletonCircle size="10" />
+                  <SkeletonText mt="4" noOfLines={4} spacing="4" />
+                </Box>
+              ) : (
+                <Box w="100%" maxW="350px" display="flex" alignItems="center">
+                  <RadioGroup
+                    value={freteEscolhido}
+                    onChange={setFreteEscolhido}
+                  >
+                    <Stack direction="column">
+                      {cotacao &&
+                        cotacao.map(
+                          ({
+                            id,
+                            name,
+                            company,
+                            delivery_time,
+                            discount,
+                            price,
+                            error,
+                          }) => {
+                            const totalFrete = Number(price) - Number(discount);
+
+                            return (
+                              <Radio key={id} value={String(totalFrete)}>
+                                {company.name} <strong>{name}</strong> -{" "}
+                                {error
+                                  ? error
+                                  : `até ${delivery_time} dias úteis | ${formatCurrency(
+                                      totalFrete
+                                    )}`}
+                              </Radio>
+                            );
+                          }
+                        )}
+                    </Stack>
+                  </RadioGroup>
+                </Box>
+              )}
+            </Flex>
+          )}
+
+          <Box
+            w="100%"
+            maxW="350px"
+            display="flex"
+            flexDir="column"
+            gap="5px"
+            mt="8"
+          >
+            <Text display="flex" alignItems="center" gap="5px">
+              Cupom
+            </Text>
+            <Box w="100%" display="flex" alignItems="center" gap="5px">
+              <Input
+                type="text"
+                _focus={{
+                  borderBottom: "1px solid",
+                  borderColor: "orange.500",
+                }}
+                placeholder="Cupom de desconto"
+                /* value={cepCotacao}
+                      onChange={(e) => setCepCotacao(e.target.value)} */
+              />
+              <Button
+                w="200px"
+                colorScheme="orange"
+                /* onClick={() => cotacaoFrete(produto, cepCotacao)} */
+              >
+                Aplicar Cupom
+              </Button>
+            </Box>
+          </Box>
 
           <Flex
             w="100%"

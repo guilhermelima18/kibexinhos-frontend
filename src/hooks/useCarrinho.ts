@@ -5,7 +5,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { api } from "../services/api";
 import { ProdutosProps } from "../types/Produto";
 
-type CarrinhoProps = {
+export type CarrinhoProps = {
   id: number;
   clienteId: number;
   produtoId: number;
