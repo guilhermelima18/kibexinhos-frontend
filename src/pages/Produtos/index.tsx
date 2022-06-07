@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -121,7 +122,8 @@ export default function Produtos() {
             >
               <Text fontSize="0.9rem">
                 Resultados encontrados:{" "}
-                <strong>{produtos && produtos.meta.total}</strong> produtos
+                <strong>{(produtos && produtos.meta.total) || 0}</strong>{" "}
+                produtos
               </Text>
               {!isLessThan860 && (
                 <Flex alignItems="center" gap="5px">

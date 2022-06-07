@@ -63,7 +63,7 @@ export function CardBlog({ posts }: CardBlogProps) {
               alignItems="center"
               justifyContent="flex-end"
             >
-              <Link to={`/blog/post`}>
+              <Link to={`/blog/${post.uid}`}>
                 <Button
                   colorScheme="orange"
                   mt="3"

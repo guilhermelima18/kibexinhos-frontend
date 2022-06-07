@@ -7,8 +7,8 @@ import {
   Flex,
   useDisclosure,
 } from "@chakra-ui/react";
-import { NavMenu } from "../Header/NavMenu";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { Accordion } from "../Accordion";
 
 export function HeaderSidebar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -20,9 +20,11 @@ export function HeaderSidebar() {
       </Button>
       <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
         <DrawerOverlay />
-        <DrawerContent bg="gray.600">
-          <DrawerCloseButton color="white" />
-          <Flex w="100%" h="100vh" pt={50} flexDir="column"></Flex>
+        <DrawerContent bg="white">
+          <DrawerCloseButton />
+          <Flex w="100%" h="100vh" pt={50} flexDir="column">
+            <Accordion />
+          </Flex>
         </DrawerContent>
       </Drawer>
     </>

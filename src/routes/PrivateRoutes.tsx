@@ -5,5 +5,9 @@ import { AuthContext } from "../contexts/AuthContext";
 export function PrivateRoutes({ Component }: any) {
   const { token } = useContext(AuthContext);
 
-  token ? <Component /> : <Navigate to="/login" state={{ from: "/login" }} />;
+  return token ? (
+    <Component />
+  ) : (
+    <Navigate to="/login" state={{ from: "/login" }} />
+  );
 }

@@ -12,7 +12,7 @@ let token = localStorage.getItem("kibexinhos.token");
 export const api = axios.create({
   baseURL: `${process.env.REACT_APP_API_KIBEXINHOS}`,
   headers: {
-    Authorization: `Bearer ${token && JSON.parse(token)}`,
+    Authorization: `Bearer ${token}`,
   },
 });
 
@@ -41,15 +41,12 @@ api.interceptors.response.use(
             .then((response) => {
               const { token, refreshToken } = response.data;
 
-              localStorage.setItem("kibexinhos.token", JSON.stringify(token));
-              localStorage.setItem(
-                "kibexinhos.refreshToken",
-                JSON.stringify(refreshToken)
-              );
+              localStorage.setItem("kibexinhos.token", token);
+              localStorage.setItem("kibexinhos.refreshToken", refreshToken);
 
               axios.defaults.headers.common[
                 "Authorization"
-              ] = `Bearer ${JSON.parse(token)}`;
+              ] = `Bearer ${token}`;
 
               failedRequestsQueue.forEach((request) =>
                 request.onSuccess(token)
@@ -68,9 +65,7 @@ api.interceptors.response.use(
         return new Promise((resolve, reject) => {
           failedRequestsQueue.push({
             onSuccess: (token: string) => {
-              originalConfig.headers!["Authorization"] = `Bearer ${JSON.parse(
-                token
-              )}`;
+              originalConfig.headers!["Authorization"] = `Bearer ${token}`;
 
               resolve(api(originalConfig));
             },
