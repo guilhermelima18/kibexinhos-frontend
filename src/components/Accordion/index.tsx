@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import {
   Accordion as ChakraAccordion,
@@ -7,8 +8,12 @@ import {
   AccordionIcon,
   Box,
 } from "@chakra-ui/react";
+import { AuthContext, signOut } from "../../contexts/AuthContext";
+import { Button } from "../Button";
 
 export const Accordion = () => {
+  const { token } = useContext(AuthContext);
+
   return (
     <ChakraAccordion allowToggle>
       <AccordionItem>
@@ -82,21 +87,32 @@ export const Accordion = () => {
           </AccordionButton>
         </h2>
         <AccordionPanel pb={4}>
-          <Link to="/login">
-            <Box w="100%" p="3" _hover={{ backgroundColor: "gray.200" }}>
-              Entrar
-            </Box>
-          </Link>
-          <Link to="/criar-conta">
-            <Box w="100%" p="3" _hover={{ backgroundColor: "gray.200" }}>
-              Criar Conta
-            </Box>
-          </Link>
-          <Link to="/carrinho">
-            <Box w="100%" p="3" _hover={{ backgroundColor: "gray.200" }}>
-              Carrinho
-            </Box>
-          </Link>
+          {!token.token && (
+            <>
+              <Link to="/login">
+                <Box w="100%" p="3" _hover={{ backgroundColor: "gray.200" }}>
+                  Entrar
+                </Box>
+              </Link>
+              <Link to="/criar-conta">
+                <Box w="100%" p="3" _hover={{ backgroundColor: "gray.200" }}>
+                  Criar Conta
+                </Box>
+              </Link>
+            </>
+          )}
+          {token.token && (
+            <>
+              <Link to="/carrinho">
+                <Box w="100%" p="3" _hover={{ backgroundColor: "gray.200" }}>
+                  Carrinho
+                </Box>
+              </Link>
+              <Box w="100%">
+                <Button onClick={() => signOut()}>Sair</Button>
+              </Box>
+            </>
+          )}
         </AccordionPanel>
       </AccordionItem>
     </ChakraAccordion>

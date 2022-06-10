@@ -4,6 +4,7 @@ import { InputGeneric } from "../Input/InputGeneric";
 
 export const Newsletter = () => {
   const [isLessThan1080] = useMediaQuery("(max-width: 1080px)");
+  const [isLessThan900] = useMediaQuery("(max-width: 900px)");
 
   return (
     <Flex bg="orange.500" w="100%" p="5">
@@ -33,14 +34,16 @@ export const Newsletter = () => {
         </Text>
         <Box
           flex="1"
+          w={isLessThan900 ? "100%" : ""}
           display="flex"
+          flexDir={isLessThan900 ? "column" : "row"}
           alignItems="center"
           justifyContent="flex-end"
           gap="10px"
         >
           <InputGeneric
             bg="white"
-            maxW="280px"
+            w={isLessThan900 ? "100%" : "280px"}
             inputType="text"
             inputName="nome"
             placeholder="Qual é o seu nome?"
@@ -48,7 +51,7 @@ export const Newsletter = () => {
           />
           <InputGeneric
             bg="white"
-            maxW="280px"
+            w={isLessThan900 ? "100%" : "280px"}
             inputType="email"
             inputName="email"
             placeholder="Seu melhor e-mail"
@@ -56,7 +59,7 @@ export const Newsletter = () => {
           />
           <Button
             bg="#FFB515"
-            w="170px"
+            w="200px"
             fontSize="md"
             color="white"
             _hover={{ backgroundColor: "yellow.500" }}

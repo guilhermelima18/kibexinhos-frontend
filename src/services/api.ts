@@ -1,5 +1,4 @@
 import axios, { AxiosError } from "axios";
-import { signOut } from "../contexts/AuthContext";
 
 let isRefreshing = false;
 let failedRequestsQueue: {
@@ -74,8 +73,6 @@ api.interceptors.response.use(
             },
           });
         });
-      } else {
-        signOut();
       }
     }
 

@@ -191,7 +191,7 @@ export function CarrinhoProvider({ children }: CarrinhoProviderProps) {
         setLoading(false);
       }
     },
-    []
+    [token.token]
   );
 
   return (

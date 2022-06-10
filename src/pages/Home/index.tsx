@@ -73,7 +73,7 @@ export default function Home() {
               Tudo o que seu pet precisa
               <br />a Kibexinhos Petshop tem!
             </Heading>
-            <Text color="white" fontSize={["1rem", "1.2rem", "1.3rem"]}>
+            <Text color="white" fontSize={["0.9rem", "1rem", "1.1rem"]}>
               Seja para comprar um petisco ou uma roupinha
               <br />
               estilosa... Basta você selecionar o produto, escolher
