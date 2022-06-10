@@ -67,7 +67,7 @@ export const StepTwo = () => {
           variant="outline"
           inputName="cep"
           inputType="text"
-          mask="99.999-999"
+          mask="99999-999"
           labelText="CEP"
           {...register("cep")}
           placeholder="xxxxx-xxx"
