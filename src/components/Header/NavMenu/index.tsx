@@ -14,8 +14,10 @@ export function NavMenu() {
     useContext(CarrinhoContext);
 
   useEffect(() => {
-    getProdutosCarrinho();
-  }, [hasAddProduto]);
+    if (token.token) {
+      getProdutosCarrinho();
+    }
+  }, [hasAddProduto, token.token]);
 
   return (
     <HStack spacing={30}>
