@@ -1,22 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { HStack, Text, Box } from "@chakra-ui/react";
+import { AuthContext, signOut } from "../../../contexts/AuthContext";
+import { CarrinhoContext } from "../../../contexts/CarrinhoContext";
 import { FaShoppingCart } from "react-icons/fa";
 import { MenuCategorias } from "../MenuCategorias";
-import { useCarrinho } from "../../../hooks/useCarrinho";
-import { useContext, useEffect } from "react";
-import { AuthContext, signOut } from "../../../contexts/AuthContext";
 import { Button } from "../../Button";
 
 export function NavMenu() {
-  const { getProdutosCarrinho, itensCarrinho } = useCarrinho();
   const { token } = useContext(AuthContext);
+  const { itensCarrinho, getProdutosCarrinho, hasAddProduto } =
+    useContext(CarrinhoContext);
 
   useEffect(() => {
-    if (token.token) {
-      getProdutosCarrinho();
-    }
-  }, [token]);
+    getProdutosCarrinho();
+  }, [hasAddProduto]);
 
   return (
     <HStack spacing={30}>
@@ -74,19 +73,21 @@ export function NavMenu() {
           position="relative"
           _hover={{ backgroundColor: "none" }}
         >
-          <Text
-            bg="white"
-            w="20px"
-            h="20px"
-            borderRadius="xl"
-            position="absolute"
-            top="-15px"
-            right="0"
-            fontWeight="bold"
-            color="#FFB515"
-          >
-            {itensCarrinho.length}
-          </Text>
+          {itensCarrinho.length > 0 && (
+            <Text
+              bg="white"
+              w="20px"
+              h="20px"
+              borderRadius="xl"
+              position="absolute"
+              top="-15px"
+              right="0"
+              fontWeight="bold"
+              color="#FFB515"
+            >
+              {itensCarrinho.length}
+            </Text>
+          )}
           <Link to="/carrinho">
             <FaShoppingCart fontSize={24} color="white" />
           </Link>

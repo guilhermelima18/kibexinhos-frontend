@@ -70,8 +70,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     if (getToken && getRefreshToken) {
       return {
-        token: JSON.parse(getToken),
-        refreshToken: JSON.parse(getRefreshToken),
+        token: getToken,
+        refreshToken: getRefreshToken,
       };
     }
 
@@ -99,14 +99,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
             localStorage.setItem("kibexinhos.user", JSON.stringify(data));
 
-            localStorage.setItem(
-              "kibexinhos.token",
-              JSON.stringify(response.data.token)
-            );
+            localStorage.setItem("kibexinhos.token", response.data.token);
 
             localStorage.setItem(
               "kibexinhos.refreshToken",
-              JSON.stringify(response.data.refreshToken)
+              response.data.refreshToken
             );
 
             setUserData({ user: data });

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import {
   Flex,
   HStack,
@@ -9,14 +9,14 @@ import {
   Input,
   useMediaQuery,
 } from "@chakra-ui/react";
+import { CarrinhoContext } from "../../contexts/CarrinhoContext";
 import { MdDelete } from "react-icons/md";
 import { GrFormAdd, GrFormSubtract } from "react-icons/gr";
-import { useCarrinho } from "../../hooks/useCarrinho";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import { Button } from "../Button";
 import { ProdutosProps } from "../../types/Produto";
 import { formatCurrency } from "../../utils/formatCurrency";
-import Swal from "sweetalert2";
 
 type ItemsProps = {
   id: number;
@@ -34,7 +34,8 @@ type CarrinhoItemsProps = {
 export const CarrinhoItem = ({ item, setReloadItens }: CarrinhoItemsProps) => {
   const [isLessThan900] = useMediaQuery("(max-width: 900px)");
   const [isLessThan520] = useMediaQuery("(max-width: 520px)");
-  const { atualizaProdutosCarrinho, removerProdutosCarrinho } = useCarrinho();
+  const { atualizaProdutosCarrinho, removerProdutosCarrinho } =
+    useContext(CarrinhoContext);
   const [quantidade, setQuantidade] = useState<number>(item.quantidade);
 
   function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
@@ -45,7 +46,6 @@ export const CarrinhoItem = ({ item, setReloadItens }: CarrinhoItemsProps) => {
     e: ChangeEvent<HTMLInputElement>,
     produto: ItemsProps
   ) {
-    setReloadItens(false);
     const qtde = Number(e.target.value);
 
     if (quantidade < 1) {
@@ -68,13 +68,14 @@ export const CarrinhoItem = ({ item, setReloadItens }: CarrinhoItemsProps) => {
     };
 
     if (params) {
-      await atualizaProdutosCarrinho(params);
       setReloadItens(true);
+      await atualizaProdutosCarrinho(params);
     }
+
+    setReloadItens(false);
   }
 
   async function changeQuantidade(produto: ItemsProps, acao: string) {
-    setReloadItens(false);
     if (acao === "decrementar" && quantidade <= 1) {
       toast.info("Quantidade mínima permitida.");
       return;
@@ -91,14 +92,14 @@ export const CarrinhoItem = ({ item, setReloadItens }: CarrinhoItemsProps) => {
     };
 
     if (params) {
-      await atualizaProdutosCarrinho(params);
       setReloadItens(true);
+      await atualizaProdutosCarrinho(params);
     }
+
+    setReloadItens(false);
   }
 
   async function removerItem(produtoId: number) {
-    setReloadItens(false);
-
     if (produtoId) {
       const { isConfirmed } = await Swal.fire({
         icon: "warning",
@@ -113,9 +114,11 @@ export const CarrinhoItem = ({ item, setReloadItens }: CarrinhoItemsProps) => {
       });
 
       if (isConfirmed) {
-        await removerProdutosCarrinho(produtoId);
         setReloadItens(true);
+        await removerProdutosCarrinho(produtoId);
       }
+
+      setReloadItens(false);
     }
   }
 

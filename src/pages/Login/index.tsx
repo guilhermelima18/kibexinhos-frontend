@@ -63,7 +63,7 @@ export default function Login() {
         justifyContent="center"
       >
         <Form
-          w={isLessThan1024 ? "100%" : "60%"}
+          w={isLessThan1024 ? "100%" : "50%"}
           boxShadow="0 0 10px rgba(0, 0, 0, 0.3)"
           p="10"
           borderRadius="md"

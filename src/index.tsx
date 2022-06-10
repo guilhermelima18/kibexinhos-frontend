@@ -4,9 +4,10 @@ import { BrowserRouter } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import { ToastContainer } from "react-toastify";
 import { AuthProvider } from "./contexts/AuthContext";
-import reportWebVitals from "./reportWebVitals";
+import { CarrinhoProvider } from "./contexts/CarrinhoContext";
 import { PrismicProvider } from "@prismicio/react";
 import { client } from "./services/prismic";
+import reportWebVitals from "./reportWebVitals";
 import App from "./App";
 import { theme } from "./styles/theme";
 import "swiper/css";
@@ -23,7 +24,9 @@ root.render(
       <PrismicProvider client={client}>
         <BrowserRouter>
           <AuthProvider>
-            <App />
+            <CarrinhoProvider>
+              <App />
+            </CarrinhoProvider>
           </AuthProvider>
           <ToastContainer autoClose={3000} />
         </BrowserRouter>

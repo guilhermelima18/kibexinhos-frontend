@@ -52,7 +52,7 @@ export default function Produtos() {
 
   useEffect(() => {
     setPage(1);
-  }, [id]);
+  }, [id, tipoProduto, marcasProdutos, porte]);
 
   useEffect(() => {
     getMarcas();

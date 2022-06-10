@@ -26,8 +26,8 @@ import {
   SkeletonText,
 } from "@chakra-ui/react";
 import { useProduto } from "../../hooks/useProduto";
-import { useCarrinho } from "../../hooks/useCarrinho";
 import { AuthContext } from "../../contexts/AuthContext";
+import { CarrinhoContext } from "../../contexts/CarrinhoContext";
 import { FaShoppingCart, FaStar } from "react-icons/fa";
 import Zoom from "react-medium-image-zoom";
 import { toast } from "react-toastify";
@@ -44,7 +44,11 @@ import "react-medium-image-zoom/dist/styles.css";
 
 export default function Produto() {
   const { token } = useContext(AuthContext);
-  const { adicionarProdutosCarrinho } = useCarrinho();
+  const {
+    adicionarProdutosCarrinho,
+    loading: carrinhoLoading,
+    setHasAddProduto,
+  } = useContext(CarrinhoContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { id } = useParams();
   const {
@@ -113,6 +117,7 @@ export default function Produto() {
 
   async function handleAdicionarCarrinho(produtoId: number) {
     if (produtoId) {
+      setHasAddProduto(true);
       await adicionarProdutosCarrinho(produtoId);
     }
   }
@@ -259,6 +264,7 @@ export default function Produto() {
                     gap="10px"
                     onClick={() => handleAdicionarCarrinho(produto.id)}
                     disabled={!token.token}
+                    isLoading={carrinhoLoading}
                   >
                     <FaShoppingCart color="white" size={20} />
                     Adicionar ao carrinho

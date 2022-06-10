@@ -37,7 +37,7 @@ export const StepTwo = () => {
           variant="outline"
           inputName="celular1"
           inputType="text"
-          mask="99999999999"
+          mask="(99) 99999-9999"
           {...register("celular1")}
           labelText="Celular 1"
           placeholder="(xx) xxxxx-xxxx"
@@ -46,7 +46,7 @@ export const StepTwo = () => {
         <InputGroup
           variant="outline"
           inputName="celular2"
-          mask="99999999999"
+          mask="(99) 99999-9999"
           inputType="text"
           {...register("celular2")}
           labelText="Celular 2"
@@ -67,7 +67,7 @@ export const StepTwo = () => {
           variant="outline"
           inputName="cep"
           inputType="text"
-          mask="99999999"
+          mask="99.999-999"
           labelText="CEP"
           {...register("cep")}
           placeholder="xxxxx-xxx"

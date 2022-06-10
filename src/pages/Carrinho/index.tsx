@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import {
@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { FaPeopleCarry, FaTruck } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { CarrinhoProps, useCarrinho } from "../../hooks/useCarrinho";
+import { CarrinhoContext, CarrinhoProps } from "../../contexts/CarrinhoContext";
 import { Button } from "../../components/Button";
 import { CarrinhoItem } from "../../components/CarrinhoItem";
 import { Layout } from "../../components/Layout";
@@ -39,12 +39,19 @@ type EnderecoClienteProps = {
 export default function Carrinho() {
   const [isLessThan940] = useMediaQuery("(max-width: 940px)");
   const [isLessThan500] = useMediaQuery("(max-width: 500px)");
-  const { getProdutosCarrinho, itensCarrinho, loading } = useCarrinho();
+  const {
+    getProdutosCarrinho,
+    finalizarPedidoCarrinho,
+    itensCarrinho,
+    loading,
+  } = useContext(CarrinhoContext);
   const [reloadItens, setReloadItens] = useState(false);
   const [tipoEntrega, setTipoEntrega] = useState("1");
   const [cepCotacao, setCepCotacao] = useState<string>("");
   const [freteEscolhido, setFreteEscolhido] = useState<string>("");
   const [cotacao, setCotacao] = useState<CotacaoFreteProps[]>([]);
+  const [formaPagamento, setFormaPagamento] = useState<number>(1);
+  const [parcelaEscolhida, setParcelaEscolhida] = useState<number>(0);
   const [enderecoCliente, setEnderecoCliente] =
     useState<EnderecoClienteProps>();
   const [isLoading, setIsLoading] = useState(false);
@@ -123,7 +130,44 @@ export default function Carrinho() {
     [itensCarrinho]
   );
 
-  console.log(cotacao);
+  const parcelas = useMemo(() => {
+    let totalParcelas: number[] = [];
+
+    if (total) {
+      for (var i = 1; i <= 12; i++) {
+        if (freteEscolhido && Number(freteEscolhido) > 0) {
+          const itemTotal = (total + Number(freteEscolhido)) / i;
+          totalParcelas.push(itemTotal);
+        } else {
+          const itemTotal = total / i;
+          totalParcelas.push(itemTotal);
+        }
+      }
+    }
+
+    return totalParcelas;
+  }, [total, freteEscolhido]);
+
+  const finalizarPedido = async (
+    freteEscolhido: number,
+    formaPagamento: number,
+    enderecoCliente: EnderecoClienteProps | undefined
+  ) => {
+    let finalizarParams = {
+      frete: freteEscolhido || 0,
+      tipoPagamentoId: formaPagamento,
+      cupomId: 2,
+      desconto: 0,
+      cep: enderecoCliente?.cep || "",
+      estado: enderecoCliente?.uf || "",
+      bairro: enderecoCliente?.bairro || "",
+      endereco: enderecoCliente?.logradouro || "",
+    };
+
+    if (finalizarParams) {
+      await finalizarPedidoCarrinho(finalizarParams);
+    }
+  };
 
   return (
     <MainLayout>
@@ -274,18 +318,33 @@ export default function Carrinho() {
                 >
                   <VStack w="100%" alignItems="flex-start">
                     <Text fontSize="0.85rem">Método de Pagamento</Text>
-                    <Select fontSize="0.85rem" value={1} setValue={() => {}}>
-                      <option value="1">Cartão de Crédito</option>
-                      <option value="2">Boleto</option>
+                    <Select
+                      fontSize="0.85rem"
+                      value={formaPagamento}
+                      setValue={setFormaPagamento}
+                    >
+                      <option value={1}>Cartão de Crédito</option>
+                      <option value={2}>Boleto</option>
                     </Select>
                   </VStack>
 
-                  <VStack w="100%" alignItems="flex-start">
-                    <Text fontSize="0.85rem">Parcelas</Text>
-                    <Select fontSize="0.85rem" value={1} setValue={() => {}}>
-                      <option value="">Selecione uma parcela</option>
-                    </Select>
-                  </VStack>
+                  {formaPagamento === 1 && parcelas.length > 0 && (
+                    <VStack w="100%" alignItems="flex-start">
+                      <Text fontSize="0.85rem">Parcelas</Text>
+                      <Select
+                        fontSize="0.85rem"
+                        value={parcelaEscolhida}
+                        setValue={setParcelaEscolhida}
+                      >
+                        {parcelas &&
+                          parcelas.map((parc, i) => (
+                            <option value={parc}>{`${
+                              i + 1
+                            }x de ${formatCurrency(parc)}`}</option>
+                          ))}
+                      </Select>
+                    </VStack>
+                  )}
                 </Flex>
               </Flex>
               <Flex
@@ -341,7 +400,7 @@ export default function Carrinho() {
               ) : (
                 <Box w="100%" maxW="350px" display="flex" alignItems="center">
                   <RadioGroup
-                    value={freteEscolhido}
+                    value={Number(freteEscolhido)}
                     onChange={setFreteEscolhido}
                   >
                     <Stack direction="column">
@@ -359,7 +418,7 @@ export default function Carrinho() {
                             const totalFrete = Number(price) - Number(discount);
 
                             return (
-                              <Radio key={id} value={String(totalFrete)}>
+                              <Radio key={id} value={totalFrete}>
                                 {company.name} <strong>{name}</strong> -{" "}
                                 {error
                                   ? error
@@ -453,6 +512,14 @@ export default function Carrinho() {
               colorScheme="green"
               fontSize="0.9rem"
               fontWeight="normal"
+              onClick={() =>
+                finalizarPedido(
+                  Number(freteEscolhido),
+                  formaPagamento,
+                  enderecoCliente
+                )
+              }
+              isLoading={loading}
             >
               Finalizar Pedido
             </Button>

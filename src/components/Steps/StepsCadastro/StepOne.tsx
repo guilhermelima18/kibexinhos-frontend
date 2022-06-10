@@ -34,7 +34,7 @@ export const StepOne = ({ cpfOrCnpj, setCpfOrCnpj }: StepOneProps) => {
           />
           <InputGroup
             variant="outline"
-            mask="999999999"
+            mask="99.999.999-99"
             inputName="rg"
             inputType="text"
             labelText="RG"
@@ -64,7 +64,7 @@ export const StepOne = ({ cpfOrCnpj, setCpfOrCnpj }: StepOneProps) => {
             />
             <InputGroup
               variant="outline"
-              mask="999999999999"
+              mask="999.999.999.999"
               inputName="inscricaoEstadual"
               inputType="text"
               labelText="Inscrição Estadual"
