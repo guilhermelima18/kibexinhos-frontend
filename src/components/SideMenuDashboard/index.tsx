@@ -4,23 +4,15 @@ import { SideMenuLinks } from "./SideMenuLinks";
 import { FiLogOut } from "react-icons/fi";
 
 export const SideMenuDashboard = () => {
-  const isLessThan460 = useMediaQuery("(max-width: 460px)");
+  const [isLessThan460] = useMediaQuery("(max-width: 460px)");
   const routesDashboard = [
     {
       name: "Dashboard",
       path: "/dashboard",
     },
     {
-      name: "Clientes",
-      path: "/dashboard/clientes",
-    },
-    {
       name: "Pedidos",
       path: "/dashboard/pedidos",
-    },
-    {
-      name: "Financeiro",
-      path: "/dashboard/financeiro",
     },
   ];
 
@@ -39,7 +31,7 @@ export const SideMenuDashboard = () => {
       <Flex w="100%" flexDir="column" gap="30px">
         <SideMenuLinks routesDashboard={routesDashboard} />
       </Flex>
-      <Flex w="100%">
+      <Flex w="100%" alignItems="center" justifyContent="center">
         <Link to="/">
           <Box
             w="100%"

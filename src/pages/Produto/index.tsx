@@ -41,6 +41,7 @@ import { ModalCotacaoFrete } from "../../components/Modal/ModalCotacaoFrete";
 import { CotacaoFreteProps } from "../../types/Frete";
 import { formatCurrency } from "../../utils/formatCurrency";
 import "react-medium-image-zoom/dist/styles.css";
+import { useProdutoAvaliacao } from "../../hooks/useProdutoAvaliacao";
 
 export default function Produto() {
   const { token } = useContext(AuthContext);
@@ -49,6 +50,7 @@ export default function Produto() {
     loading: carrinhoLoading,
     setHasAddProduto,
   } = useContext(CarrinhoContext);
+  const { avaliarProduto } = useProdutoAvaliacao();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { id } = useParams();
   const {
@@ -65,6 +67,7 @@ export default function Produto() {
   const [cepCotacao, setCepCotacao] = useState<string>("");
   const [modalCotacao, setModalCotacao] = useState(false);
   const [cotacao, setCotacao] = useState<CotacaoFreteProps[]>([]);
+  const [avaliacao, setAvaliacao] = useState(1);
 
   useEffect(() => {
     if (id) {
@@ -113,12 +116,16 @@ export default function Produto() {
     return valorPorParcela;
   }, [produto]);
 
-  const stars: number[] = [1, 2, 3, 4, 5];
+  async function handleAdicionarCarrinho(produtoId: number, avaliacao: number) {
+    let paramsAvaliarProduto = {
+      produtoId: produtoId,
+      avaliacao: avaliacao,
+    };
 
-  async function handleAdicionarCarrinho(produtoId: number) {
     if (produtoId) {
       setHasAddProduto(true);
       await adicionarProdutosCarrinho(produtoId);
+      await avaliarProduto(paramsAvaliarProduto);
     }
   }
 
@@ -262,7 +269,9 @@ export default function Produto() {
                     display="flex"
                     alignItems="center"
                     gap="10px"
-                    onClick={() => handleAdicionarCarrinho(produto.id)}
+                    onClick={() =>
+                      handleAdicionarCarrinho(produto.id, avaliacao)
+                    }
                     disabled={!token.token}
                     isLoading={carrinhoLoading}
                   >
@@ -295,9 +304,15 @@ export default function Produto() {
                       marginTop: "5px",
                     }}
                   >
-                    {stars.map((star, index) => (
-                      <Box onClick={() => console.log(star, index)}>
-                        <FaStar size={20} color="#F9B628" />
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <Box
+                        cursor="pointer"
+                        onClick={() => setAvaliacao(index + 1)}
+                      >
+                        <FaStar
+                          size={20}
+                          color={avaliacao >= index + 1 ? "#F9B628" : ""}
+                        />
                       </Box>
                     ))}
                   </span>

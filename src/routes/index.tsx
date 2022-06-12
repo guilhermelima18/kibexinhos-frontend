@@ -5,7 +5,7 @@ import Carrinho from "../pages/Carrinho";
 import Categorias from "../pages/Categorias";
 import CriarConta from "../pages/CriarConta";
 import Dashboard from "../pages/Dashboard";
-import Clientes from "../pages/Dashboard/Clientes";
+import Pedidos from "../pages/Dashboard/Pedidos";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Produto from "../pages/Produto";
@@ -24,7 +24,7 @@ export const AppRouter = () => {
       />
       <Route path="/categorias" element={<Categorias />} />
       <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/dashboard/clientes" element={<Clientes />} />
+      <Route path="/dashboard/pedidos" element={<Pedidos />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog/:slug" element={<Post />} />
       <Route path="/produto/:id" element={<Produto />} />

@@ -10,6 +10,9 @@ import {
   SimpleGrid,
   Image,
 } from "@chakra-ui/react";
+import { useProdutosOfertas } from "../../hooks/useProdutosOfertas";
+import { useProdutosCachorros } from "../../hooks/useProdutosCachorros";
+import { useProdutosGatos } from "../../hooks/useProdutosGatos";
 import { Button } from "../../components/Button";
 import { SwiperCarousel } from "../../components/Carousel/SwiperCarousel";
 import { Layout } from "../../components/Layout";
@@ -19,17 +22,14 @@ import { CardCachorros } from "../../components/Cards/CardProdutosMaisVendidos/C
 import { CardGatos } from "../../components/Cards/CardProdutosMaisVendidos/CardGatos";
 import { Newsletter } from "../../components/Newsletter";
 import { CardOfertas } from "../../components/Cards/CardOfertas";
-import { useProdutosOfertas } from "../../hooks/useProdutosOfertas";
 import { Loading } from "../../components/Loading";
 import bannerFreteGratisImg from "../../assets/banner-fretes-gratis.svg";
 import patasDogImg from "../../assets/patas-dog.svg";
+import dogImg from "../../assets/dog.png";
 import marcaIcon1 from "../../assets/marca-1.svg";
 import marcaIcon2 from "../../assets/marca-2.svg";
 import marcaIcon3 from "../../assets/marca-3.svg";
 import marcaIcon4 from "../../assets/marca-4.svg";
-import dogImg from "../../assets/dog.png";
-import { useProdutosCachorros } from "../../hooks/useProdutosCachorros";
-import { useProdutosGatos } from "../../hooks/useProdutosGatos";
 
 export default function Home() {
   const { getOfertas, produtosOfertas, loading } = useProdutosOfertas();

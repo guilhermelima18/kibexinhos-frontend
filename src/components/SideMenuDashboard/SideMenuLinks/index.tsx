@@ -1,6 +1,7 @@
-import { Box, Image, Tooltip } from "@chakra-ui/react";
-import { FaHandHoldingUsd, FaProductHunt, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { Box, Image, Tooltip } from "@chakra-ui/react";
+import { FaTruck } from "react-icons/fa";
+import logoKibexinhos from "../../../assets/logo-kibexinhos.png";
 
 type SideMenuLinksProps = {
   routesDashboard: {
@@ -31,15 +32,11 @@ export const SideMenuLinks = ({ routesDashboard }: SideMenuLinksProps) => {
               {path === "/dashboard" ? (
                 <Image
                   w="100%"
-                  src="/logo-kibexinhos.png"
+                  src={logoKibexinhos}
                   alt="Logo Kibexinhos PetShop"
                 />
-              ) : path === "/dashboard/clientes" ? (
-                <FaUser color="white" size={20} />
-              ) : path === "/dashboard/pedidos" ? (
-                <FaProductHunt color="white" size={20} />
               ) : (
-                <FaHandHoldingUsd color="white" size={20} />
+                <FaTruck color="white" size={26} />
               )}
             </Tooltip>
           </Box>

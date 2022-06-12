@@ -70,30 +70,42 @@ export function NavMenu() {
         </Box>
       )}
       {token.token && (
-        <Button
-          bg="transparent"
-          position="relative"
-          _hover={{ backgroundColor: "none" }}
-        >
-          {itensCarrinho.length > 0 && (
+        <>
+          <Link to="/dashboard">
             <Text
-              bg="white"
-              w="20px"
-              h="20px"
-              borderRadius="xl"
-              position="absolute"
-              top="-15px"
-              right="0"
+              fontSize="0.9rem"
+              color="white"
               fontWeight="bold"
-              color="#FFB515"
+              _hover={{ textDecoration: "underline", cursor: "pointer" }}
             >
-              {itensCarrinho.length}
+              Minha Conta
             </Text>
-          )}
-          <Link to="/carrinho">
-            <FaShoppingCart fontSize={24} color="white" />
           </Link>
-        </Button>
+          <Button
+            bg="transparent"
+            position="relative"
+            _hover={{ backgroundColor: "none" }}
+          >
+            {itensCarrinho.length > 0 && (
+              <Text
+                bg="white"
+                w="20px"
+                h="20px"
+                borderRadius="xl"
+                position="absolute"
+                top="-15px"
+                right="0"
+                fontWeight="bold"
+                color="#FFB515"
+              >
+                {itensCarrinho.length}
+              </Text>
+            )}
+            <Link to="/carrinho">
+              <FaShoppingCart fontSize={24} color="white" />
+            </Link>
+          </Button>
+        </>
       )}
       {token.token && (
         <Button colorScheme="orange" onClick={() => signOut()}>

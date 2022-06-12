@@ -7,7 +7,7 @@ type MainLayoutProps = {
 };
 
 export const MainLayout = ({ children }: MainLayoutProps) => {
-  const isLessThan460 = useMediaQuery("(max-width: 460px)");
+  const [isLessThan460] = useMediaQuery("(max-width: 460px)");
 
   return (
     <Flex w="100%" position="relative">

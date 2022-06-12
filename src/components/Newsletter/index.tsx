@@ -16,6 +16,7 @@ export const Newsletter = () => {
         display="flex"
         alignItems="center"
         gap={isLessThan1080 ? "30px" : "0"}
+        px="3"
       >
         <Text
           as="span"
