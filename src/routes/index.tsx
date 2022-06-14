@@ -8,6 +8,7 @@ import Dashboard from "../pages/Dashboard";
 import Pedidos from "../pages/Dashboard/Pedidos";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
+import NotFound from "../pages/NotFound";
 import Produto from "../pages/Produto";
 import Produtos from "../pages/Produtos";
 import { PrivateRoutes } from "./PrivateRoutes";
@@ -29,6 +30,7 @@ export const AppRouter = () => {
       <Route path="/blog/:slug" element={<Post />} />
       <Route path="/produto/:id" element={<Produto />} />
       <Route path="/produtos/:id" element={<Produtos />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

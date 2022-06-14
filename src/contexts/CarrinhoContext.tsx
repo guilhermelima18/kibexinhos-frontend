@@ -183,8 +183,6 @@ export function CarrinhoProvider({ children }: CarrinhoProviderProps) {
             navigate("/");
           }, 2000);
         }
-
-        console.log(response);
       } catch (error) {
         toast.error("Não foi possível finalizar o pedido.");
       } finally {

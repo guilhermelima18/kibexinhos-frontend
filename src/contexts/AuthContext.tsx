@@ -19,23 +19,19 @@ type SignInProps = {
   password: string;
 };
 
-type UserProps =
-  | {
-      user?: {
-        id: number;
-        email: string;
-        nomeCliente?: string;
-        nomeFantasia?: string;
-        razaoSocial?: string;
-        dataNascimento: string;
-        celular1?: string;
-        celular2?: string;
-        ativo: boolean;
-        apelido?: string;
-        rgie?: string;
-      };
-    }
-  | undefined;
+type UserProps = {
+  id: number;
+  email: string;
+  nomeCliente?: string;
+  nomeFantasia?: string;
+  razaoSocial?: string;
+  dataNascimento: string;
+  celular1?: string;
+  celular2?: string;
+  ativo: boolean;
+  apelido?: string;
+  rgie?: string;
+};
 
 type TokenProps = {
   token: string;
@@ -106,7 +102,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
               response.data.refreshToken
             );
 
-            setUserData({ user: data });
+            setUserData(data);
 
             setToken({
               token: response.data.token,

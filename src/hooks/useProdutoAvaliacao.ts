@@ -14,7 +14,7 @@ export function useProdutoAvaliacao() {
   const avaliarProduto = useCallback(
     async (params: AvaliarProdutoParams) => {
       try {
-        const response = await api.post(
+        await api.post(
           "/produto/avaliacao",
           {
             ...params,
@@ -25,8 +25,6 @@ export function useProdutoAvaliacao() {
             },
           }
         );
-
-        console.log(response);
       } catch (error) {
         toast.error("Não foi possível dar uma avaliação ao produto.");
       }

@@ -10,17 +10,8 @@ import {
   useMediaQuery,
   VStack,
 } from "@chakra-ui/react";
-import { MdLocationOn, MdEmail, MdAccessTimeFilled } from "react-icons/md";
-import {
-  FaFacebook,
-  FaFacebookF,
-  FaInstagram,
-  FaInstagramSquare,
-  FaYoutube,
-} from "react-icons/fa";
-import logoKibexinhosIcon from "../../assets/logo-kibexinhos.png";
+import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
 import bandeirasCartaoImg from "../../assets/bandeiras-cartao.jpg";
-import googlePlayAppleStoreIcon from "../../assets/icon-google-play-apple-store.png";
 import seloGoogleIcon from "../../assets/selo_google.png";
 
 export function Footer() {
@@ -83,7 +74,7 @@ export function Footer() {
             </Heading>
             <Flex flexDir="column" gap="5px">
               <Text _hover={{ textDecoration: "underline" }} fontSize="0.85rem">
-                <Link to="/conta">Minha Conta</Link>
+                <Link to="/dashboard">Minha Conta</Link>
               </Text>
               <Text _hover={{ textDecoration: "underline" }} fontSize="0.85rem">
                 <Link to="/politica-de-privacidade">

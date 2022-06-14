@@ -7,6 +7,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Dashboard() {
   const { userData } = useContext(AuthContext);
+  const user = userData ? userData.nomeCliente : "";
 
   return (
     <MainLayout>
@@ -39,7 +40,7 @@ export default function Dashboard() {
               mt="5"
             >
               <Heading fontSize="1.5rem" mb="3" color="gray.600">
-                Olá, {userData?.user?.nomeCliente}
+                Olá, {user}
               </Heading>
               <small>Seja bem vindo ao Dashboard da Kibexinhos Petshop.</small>
             </Box>

@@ -1,4 +1,4 @@
-import { Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { OwlCarouselReact } from "../../Carousel/OwlCarousel";
 import { formatCurrency } from "../../../utils/formatCurrency";
@@ -22,7 +22,7 @@ export const CardProdutosRelacionados = ({ produtos }: CardOfertasProps) => {
               <Flex
                 bg="white"
                 maxW="200px"
-                h="220px"
+                h="250px"
                 flexDir="column"
                 alignItems="center"
                 justifyContent="space-between"
@@ -63,10 +63,15 @@ export const CardProdutosRelacionados = ({ produtos }: CardOfertasProps) => {
                     {produto.desconto ? produto.desconto : 10}%
                   </Text>
                 </Flex>
+                <Box w="100%">
+                  <Text fontSize="0.7rem" textAlign="center" noOfLines={2}>
+                    {produto.nomeProduto}
+                  </Text>
+                </Box>
                 <Text
                   w="100%"
                   textAlign="center"
-                  fontSize="1.5rem"
+                  fontSize="1.3rem"
                   fontWeight="bold"
                   color="orange.500"
                 >

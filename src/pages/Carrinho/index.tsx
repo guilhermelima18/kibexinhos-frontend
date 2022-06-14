@@ -6,6 +6,7 @@ import {
   Box,
   Flex,
   Heading,
+  Image,
   Input,
   Radio,
   RadioGroup,
@@ -27,6 +28,7 @@ import { MainLayout } from "../../components/MainLayout";
 import { Select } from "../../components/Select";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { CotacaoFreteProps } from "../../types/Frete";
+import dogsCarrinhoImg from "../../assets/dogs-carrinho.png";
 
 type EnderecoClienteProps = {
   bairro: string;
@@ -277,7 +279,23 @@ export default function Carrinho() {
                     <SkeletonText mt="4" noOfLines={4} spacing="4" />
                   </Box>
                 ) : itensCarrinho.length === 0 ? (
-                  <Text>Não há itens no carrinho.</Text>
+                  <Box
+                    w="100%"
+                    display="flex"
+                    flexDir="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    py="10"
+                  >
+                    <Image
+                      w="150px"
+                      src={dogsCarrinhoImg}
+                      alt="Cachorro com a pata no fucinho."
+                    />
+                    <Text fontSize="1.2rem" mt="5">
+                      Não há itens no carrinho
+                    </Text>
+                  </Box>
                 ) : (
                   itensCarrinho &&
                   itensCarrinho.map((item) => (
@@ -520,6 +538,7 @@ export default function Carrinho() {
                 )
               }
               isLoading={loading}
+              isDisabled={itensCarrinho.length === 0}
             >
               Finalizar Pedido
             </Button>
