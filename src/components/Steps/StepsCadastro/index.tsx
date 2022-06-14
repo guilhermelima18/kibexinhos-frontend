@@ -2,15 +2,15 @@ import { useState } from "react";
 import { Flex } from "@chakra-ui/react";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useCadastroCliente } from "../../../hooks/useCadastroCliente";
+import { toast } from "react-toastify";
 import { Button } from "../../Button";
 import { StepOne } from "./StepOne";
 import { StepTwo } from "./StepTwo";
 import { Form } from "../../Form";
 import { ClienteProps } from "../../../types/Cliente";
-import { toast } from "react-toastify";
+import { validarFormularioCadastro } from "../../../validations/CadastroClientes";
 
 const steps = 2;
 
@@ -29,31 +29,6 @@ export type FormCadastroProps = {
   cep: string;
   newsletter: boolean;
 };
-
-const validarFormularioCadastro = yup.object().shape({
-  nome: yup.string().required("Nome é um campo obrigatório"),
-  apelido: yup.string().required("Apelido é um campo obrigatório"),
-  email: yup
-    .string()
-    .email("E-mail inválido")
-    .required("E-mail é um campo obrigatório"),
-  senha: yup
-    .string()
-    .length(8, "No mínimo 8 letras ou números")
-    .required("Senha obrigatória"),
-  cep: yup
-    .string()
-    .length(9, "CEP contém 8 números")
-    .required("CEP é um campo obrigatório"),
-  celular1: yup
-    .string()
-    .length(15, "Celular deve conter 11 números")
-    .required("Celular é um campo obrigatório"),
-  celular2: yup
-    .string()
-    .length(15, "Celular deve conter 11 números")
-    .required("Celular é um campo obrigatório"),
-});
 
 export const StepsForm = () => {
   const { cadastrarCliente } = useCadastroCliente();

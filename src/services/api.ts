@@ -1,10 +1,5 @@
 import axios, { AxiosError } from "axios";
-
-let isRefreshing = false;
-let failedRequestsQueue: {
-  onSuccess: (token: string) => void;
-  onFailure: (err: AxiosError<unknown, any>) => void;
-}[] = [];
+import Swal from "sweetalert2";
 
 let token = localStorage.getItem("kibexinhos.token");
 
@@ -19,62 +14,19 @@ api.interceptors.response.use(
   (response) => response,
   (error: AxiosError<any>) => {
     if (error.response && error.response.status === 401) {
-      console.log(error);
-      if (
-        error.response.data &&
-        error.response.data?.code === "token.expired"
-      ) {
-        token = localStorage.getItem("kibexinhos.token");
-
-        const refreshToken = localStorage.getItem("kibexinhos.refreshToken");
-
-        const originalConfig = error.config;
-
-        if (!isRefreshing) {
-          isRefreshing = true;
-
-          api
-            .post("/cliente/refresh", {
-              token,
-              refreshToken,
-            })
-            .then((response) => {
-              const { token, refreshToken } = response.data;
-
-              localStorage.setItem("kibexinhos.token", token);
-              localStorage.setItem("kibexinhos.refreshToken", refreshToken);
-
-              axios.defaults.headers.common[
-                "Authorization"
-              ] = `Bearer ${token}`;
-
-              failedRequestsQueue.forEach((request) =>
-                request.onSuccess(token)
-              );
-              failedRequestsQueue = [];
-            })
-            .catch((err) => {
-              failedRequestsQueue.forEach((request) => request.onFailure(err));
-              failedRequestsQueue = [];
-            })
-            .finally(() => {
-              isRefreshing = false;
-            });
+      Swal.fire({
+        icon: "warning",
+        title: "Token expirado",
+        text: "Faça o login novamente... Aguarde, estamos te redirecionando!",
+        confirmButtonColor: "#DD6B20",
+        confirmButtonText: "Sim",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setInterval(() => {
+            window.location.href = "/login";
+          }, 2000);
         }
-
-        return new Promise((resolve, reject) => {
-          failedRequestsQueue.push({
-            onSuccess: (token: string) => {
-              originalConfig.headers!["Authorization"] = `Bearer ${token}`;
-
-              resolve(api(originalConfig));
-            },
-            onFailure: (err: AxiosError) => {
-              reject(err);
-            },
-          });
-        });
-      }
+      });
     }
 
     return Promise.reject(error);
