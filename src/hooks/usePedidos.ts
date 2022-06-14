@@ -28,7 +28,7 @@ export function usePedidos() {
 
       if (response) {
         if (response.status === 200) {
-          const data = response.data.pedidos.map((pedido: PedidosProps) => ({
+          const data = response.data.map((pedido: PedidosProps) => ({
             ...pedido,
             criadoEm: formatDate(pedido.criadoEm),
             frete: formatCurrency(pedido.frete),

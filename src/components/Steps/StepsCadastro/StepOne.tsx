@@ -10,17 +10,15 @@ type StepOneProps = {
 };
 
 export const StepOne = ({ cpfOrCnpj, setCpfOrCnpj }: StepOneProps) => {
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <Flex w="100%" flexDir="column" alignItems="center" my="10">
       {cpfOrCnpj.length <= 14 ? (
-        <Flex
-          w="100%"
-          flexDir={["column", "column", "row"]}
-          alignItems="center"
-          gap="10px"
-        >
+        <Flex w="100%" flexDir={["column", "column", "row"]} gap="10px">
           <InputGroup
             variant="outline"
             inputName="cpf"
@@ -41,6 +39,7 @@ export const StepOne = ({ cpfOrCnpj, setCpfOrCnpj }: StepOneProps) => {
             placeholder="00.000.000-0"
             {...register("rg")}
             borderWidth="2px"
+            error={errors.rg?.message}
           />
         </Flex>
       ) : (

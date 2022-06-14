@@ -10,6 +10,7 @@ import { StepOne } from "./StepOne";
 import { StepTwo } from "./StepTwo";
 import { Form } from "../../Form";
 import { ClienteProps } from "../../../types/Cliente";
+import { toast } from "react-toastify";
 
 const steps = 2;
 
@@ -30,6 +31,8 @@ export type FormCadastroProps = {
 };
 
 const validarFormularioCadastro = yup.object().shape({
+  nome: yup.string().required("Nome é um campo obrigatório"),
+  apelido: yup.string().required("Apelido é um campo obrigatório"),
   email: yup
     .string()
     .email("E-mail inválido")
@@ -38,6 +41,18 @@ const validarFormularioCadastro = yup.object().shape({
     .string()
     .length(8, "No mínimo 8 letras ou números")
     .required("Senha obrigatória"),
+  cep: yup
+    .string()
+    .length(9, "CEP contém 8 números")
+    .required("CEP é um campo obrigatório"),
+  celular1: yup
+    .string()
+    .length(15, "Celular deve conter 11 números")
+    .required("Celular é um campo obrigatório"),
+  celular2: yup
+    .string()
+    .length(15, "Celular deve conter 11 números")
+    .required("Celular é um campo obrigatório"),
 });
 
 export const StepsForm = () => {
@@ -83,6 +98,11 @@ export const StepsForm = () => {
       params.nomeFantasia = `${data.nomeFantasia}`;
     }
 
+    if (cpfOrCnpj.length < 14) {
+      toast.info("Campo CPF e/ou CNPJ é um campo obrigatório");
+      return;
+    }
+
     await cadastrarCliente(params);
   };
 
@@ -108,20 +128,20 @@ export const StepsForm = () => {
         </Form>
       </FormProvider>
       <Flex width="100%" flexDir="column" justifyContent="center">
-        {activeStep < 1 && (
-          <Flex w="100%" justifyContent="flex-end">
-            <Button
-              isDisabled={activeStep === 0}
-              mr={4}
-              onClick={prevStep}
-              size="md"
-              variant="outline"
-              fontWeight="normal"
-              fontSize="0.9rem"
-            >
-              Anterior
-            </Button>
+        <Flex w="100%" justifyContent="space-between">
+          <Button
+            isDisabled={activeStep === 0}
+            mr={4}
+            onClick={prevStep}
+            size="md"
+            variant="outline"
+            fontWeight="normal"
+            fontSize="0.9rem"
+          >
+            Anterior
+          </Button>
 
+          {activeStep < 1 && (
             <Button
               size="md"
               colorScheme="orange"
@@ -134,8 +154,8 @@ export const StepsForm = () => {
             >
               {activeStep === steps - 1 ? "Finalizar" : "Próxima"}
             </Button>
-          </Flex>
-        )}
+          )}
+        </Flex>
       </Flex>
     </Flex>
   );

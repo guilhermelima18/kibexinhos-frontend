@@ -19,6 +19,7 @@ api.interceptors.response.use(
   (response) => response,
   (error: AxiosError<any>) => {
     if (error.response && error.response.status === 401) {
+      console.log(error);
       if (
         error.response.data &&
         error.response.data?.code === "token.expired"

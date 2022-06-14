@@ -10,6 +10,7 @@ interface InputGroupProps extends InputProps {
   labelText: string;
   mask?: string;
   children?: ReactNode;
+  error?: string;
 }
 
 const InputGroupBase: ForwardRefRenderFunction<
@@ -24,6 +25,7 @@ const InputGroupBase: ForwardRefRenderFunction<
     labelText,
     children,
     mask,
+    error,
     ...rest
   },
   ref
@@ -79,6 +81,11 @@ const InputGroupBase: ForwardRefRenderFunction<
           />
         )}
       </Flex>
+      {error && (
+        <p style={{ fontSize: "0.75rem", color: "red", marginTop: "0.3rem" }}>
+          {error}
+        </p>
+      )}
     </Box>
   );
 };

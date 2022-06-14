@@ -21,6 +21,7 @@ export const StepTwo = () => {
           labelText="Nome"
           placeholder="Nome completo"
           borderWidth="2px"
+          error={errors.nome?.message}
         />
         <InputGroup
           variant="outline"
@@ -30,6 +31,7 @@ export const StepTwo = () => {
           labelText="Apelido"
           placeholder="Apelido"
           borderWidth="2px"
+          error={errors.apelido?.message}
         />
       </Flex>
       <Flex w="100%" flexDir={["column", "column", "row"]} gap="10px">
@@ -42,6 +44,7 @@ export const StepTwo = () => {
           labelText="Celular 1"
           placeholder="(xx) xxxxx-xxxx"
           borderWidth="2px"
+          error={errors.celular1?.message}
         />
         <InputGroup
           variant="outline"
@@ -52,6 +55,7 @@ export const StepTwo = () => {
           labelText="Celular 2"
           placeholder="(xx) xxxxx-xxxx"
           borderWidth="2px"
+          error={errors.celular2?.message}
         />
       </Flex>
       <Flex w="100%" flexDir={["column", "column", "row"]} gap="10px">
@@ -72,6 +76,7 @@ export const StepTwo = () => {
           {...register("cep")}
           placeholder="xxxxx-xxx"
           borderWidth="2px"
+          error={errors.cep?.message}
         />
       </Flex>
       <Flex flexDir="column">
@@ -83,10 +88,8 @@ export const StepTwo = () => {
           {...register("email")}
           placeholder="exemplo@exemplo.com"
           borderWidth="2px"
+          error={errors.email?.message}
         />
-        <p style={{ fontSize: "0.75rem", color: "red" }}>
-          {errors.email?.message}
-        </p>
       </Flex>
       <Flex w="100%" flexDir="column">
         <InputGroup
@@ -98,10 +101,8 @@ export const StepTwo = () => {
           labelText="Senha"
           placeholder="Máximo 8 caractéres ou números"
           borderWidth="2px"
+          error={errors.senha?.message}
         />
-        <p style={{ fontSize: "0.75rem", color: "red" }}>
-          {errors.senha?.message}
-        </p>
       </Flex>
       <Flex mt="8" alignItems="center" gap="20px">
         <Switch id="email-alerts" {...register("newsletter")} />

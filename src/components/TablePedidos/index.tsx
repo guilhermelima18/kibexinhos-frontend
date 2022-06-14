@@ -1,4 +1,5 @@
 import {
+  Box,
   Table,
   TableContainer,
   Tbody,
@@ -12,6 +13,12 @@ import { PedidosProps } from "../../types/Pedidos";
 
 type TablePedidosProps = {
   pedidos?: PedidosProps[];
+};
+
+const STATUS_ENUM = {
+  REJEITADO: "Rejeitado",
+  EM_ANDAMENTO: "Em andamento",
+  ENTREGUE: "Entregue",
 };
 
 export const TablePedidos = ({ pedidos }: TablePedidosProps) => {
@@ -54,7 +61,10 @@ export const TablePedidos = ({ pedidos }: TablePedidosProps) => {
                 cep,
                 estado,
               }) => (
-                <Tr key={id}>
+                <Tr
+                  key={id}
+                  _hover={{ backgroundColor: "rgba(200, 200, 200, 0.2)" }}
+                >
                   <Td textAlign="center" fontSize="0.8rem">
                     {id}
                   </Td>
@@ -65,17 +75,35 @@ export const TablePedidos = ({ pedidos }: TablePedidosProps) => {
                     {frete}
                   </Td>
                   <Td textAlign="center" fontSize="0.8rem">
-                    <Text display="flex" flexDir="column">
-                      <span>{endereco}</span>
-                      <span>{bairro}</span>
-                      <span>{`${cep} - ${estado}`}</span>
-                    </Text>
+                    {endereco ? (
+                      <Text display="flex" flexDir="column">
+                        <span>{endereco}</span>
+                        <span>{bairro}</span>
+                        <span>{`${cep} - ${estado}`}</span>
+                      </Text>
+                    ) : (
+                      <Text>Não informado</Text>
+                    )}
                   </Td>
-                  <Td textAlign="center" fontSize="0.8rem">
+                  <Td textAlign="center" fontSize="0.8rem" fontWeight="bold">
                     {total}
                   </Td>
                   <Td textAlign="center" fontSize="0.8rem">
-                    {status}
+                    <Box
+                      bg={
+                        status === STATUS_ENUM.REJEITADO
+                          ? "red.500"
+                          : status === STATUS_ENUM.EM_ANDAMENTO
+                          ? "green.500"
+                          : "blue.500"
+                      }
+                      p="2"
+                      color="white"
+                      fontWeight="bold"
+                      borderRadius="md"
+                    >
+                      {status}
+                    </Box>
                   </Td>
                 </Tr>
               )

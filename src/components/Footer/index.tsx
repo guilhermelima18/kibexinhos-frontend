@@ -13,9 +13,12 @@ import {
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
 import bandeirasCartaoImg from "../../assets/bandeiras-cartao.jpg";
 import seloGoogleIcon from "../../assets/selo_google.png";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export function Footer() {
   const [isLessThan470] = useMediaQuery("(max-width: 470px)");
+  const { token } = useContext(AuthContext);
 
   return (
     <Flex
@@ -73,9 +76,14 @@ export function Footer() {
               Serviços
             </Heading>
             <Flex flexDir="column" gap="5px">
-              <Text _hover={{ textDecoration: "underline" }} fontSize="0.85rem">
-                <Link to="/dashboard">Minha Conta</Link>
-              </Text>
+              {token.token && (
+                <Text
+                  _hover={{ textDecoration: "underline" }}
+                  fontSize="0.85rem"
+                >
+                  <Link to="/dashboard">Minha Conta</Link>
+                </Text>
+              )}
               <Text _hover={{ textDecoration: "underline" }} fontSize="0.85rem">
                 <Link to="/politica-de-privacidade">
                   Política de Privacidade
@@ -146,7 +154,7 @@ export function Footer() {
             </Heading>
 
             <HStack mt="3">
-              <Text fontSize="0.85rem">Jaú</Text>
+              <Text fontSize="0.85rem">Jaú - </Text>
               <Text fontSize="0.85rem">(14) 3626-5960</Text>
             </HStack>
             <HStack mt="5" cursor="pointer">
